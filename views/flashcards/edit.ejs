@@ -1,0 +1,238 @@
+<div class="container">
+    <header>
+        <h1 class="pt-4 pb-4"><img src="/imgs/edit.svg" height="50px" width="50px" alt="Edit Icon">  Edit</h1>
+    </header>
+    <form action=<%= "/flashcards/update/" + flashcardSet.setId %> id="createForm" method="POST" onsubmit="return checkEmpty()">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="titleInput" placeholder="Title" name="title" value="<%= flashcardSet.title %>" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description (optional)</label>
+            <textarea class="form-control" id="descriptionInput" rows="1" placeholder="Description" name="description"><%= flashcardSet.description %></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tags (optional)</label>
+
+            <select id="select-course" class="form-control" name="tags[]" placeholder="Select a course...">
+                <option value="">Select a course...</option>
+                <option value="ACIT 1420">ACIT 1420 - Introduction to Systems Administration</option>
+                <option value="ACIT 1515">ACIT 1515	- Scripting for IT</option>
+                <option value="ACIT 1620">ACIT 1620	- Fundamental Web Technologies</option>
+                <option value="ACIT 1630">ACIT 1630	- Database Systems</option>
+                <option value="COMM 1116">COMM 1116	- Business Communications 1</option>
+                <option value="MATH 1310">MATH 1310	- Technical Math for IT</option>
+                <option value="ORGB 1100">ORGB 1100	- Organizational Behaviour</option>
+                <option value="ACIT 2420">ACIT 2420	- Linux System Administration</option>
+                <option value="ACIT 2515">ACIT 2515	- Object Oriented Programming</option>
+                <option value="ACIT 2520">ACIT 2520	- Developing Web Applications</option>
+                <option value="ACIT 2620">ACIT 2620	- Principles of Enterprise Networking</option>
+                <option value="ACIT 2811">ACIT 2811	- UX/UI Development</option>
+                <option value="ACIT 2831">ACIT 2831	- Business Systems Analysis</option>
+                <option value="ACIT 2911">ACIT 2911	- Agile Development Project</option>
+                <option value="ACIT 4770">ACIT 4770	- Legal and Ethical Issues in IT</option>
+                <option value="COMM 2216">COMM 2216	- Business Communications 2</option>
+                <option value="MATH 1350">MATH 1350	- Statistics for Information Technology</option>
+                <option value="ACIT 3420">ACIT 3420	- Windows Server Administration</option>
+                <option value="ACIT 3640">ACIT 3640	- Cloud Computing</option>
+                <option value="ACIT 3771">ACIT 3771	- IT Service and Project Management</option>
+                <option value="ACIT 3900">ACIT 3900	- IT Projects Practicum 1</option>
+                <option value="ACIT 3910">ACIT 3910	- Database Administration and Management</option>
+                <option value="ACIT 3415">ACIT 3415	- IT Storage Infrastructure</option>
+                <option value="ACIT 3475">ACIT 3475	- Web Server Administration</option>
+                <option value="ACIT 3645">ACIT 3645	- Web Content Management Systems</option>
+                <option value="ACIT 3650">ACIT 3650	- Mobile Application Development</option>
+                <option value="ACIT 3890">ACIT 3890	- Open Source Practices</option>
+                <option value="ACIT 3895">ACIT 3895	- Applied Algorithms</option>
+                <option value="ACIT 3896">ACIT 3896	- Applied Algorithms</option>
+                <option value="ACIT 4630">ACIT 4630	- Information Assurance and Security</option>
+                <option value="ACIT 4640">ACIT 4640	- IT System and Network Provisioning</option>
+                <option value="ACIT 4850">ACIT 4850	- Enterprise System Integration</option>
+                <option value="ACIT 4880">ACIT 4880	- Introduction to Data Analytics</option>
+                <option value="ACIT 4900">ACIT 4900	- IT Project Practicum 2</option>
+                <option value="ACIT 4980">ACIT 4980	- Information Technology Industry Practicum</option>
+                <option value="ACIT 3435">ACIT 3435	- Administration of Online Collaboration Systems</option>
+                <option value="ACIT 3495">ACIT 3495	- Advanced Topics in IT Infrastructure</option>
+                <option value="ACIT 3625">ACIT 3625	- Full Stack Web Development</option>
+                <option value="ACIT 3695">ACIT 3695	- Advanced Topics in Web Systems</option>
+                <option value="ACIT 3855">ACIT 3855	- Service Based Architectures</option>
+                <option value="ACIT 4910">ACIT 4910	- Database Backup, Recovery and Tuning</option>
+                <option value="ACIT 2990">ACIT 2990 - Co-operative Education Workterm 1</option>
+                <option value="ACIT 3990">ACIT 3990 - Co-operative Education Workterm 2</option>
+              </select>
+            </span>
+            <input type="text" data-role="tagsinput" id="custom-tags-input" name="tags[]" class="form-control" placeholder="Add a custom tag">
+        </div>
+
+        <label class="flashcards-label">Flashcards</label>
+        <div class="form-group">
+            <ul id="flashcards-list" class="list-unstyled">
+                <% for (let flashcard of flashcards) { %>
+                    <hr>
+                    <li class="flashcard-container">
+                        <textarea class="form-control term-textbox" placeholder="Enter term" rows="1" name="flashcards[term]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required><%= flashcard.term %></textarea>
+                        <textarea class="form-control def-textbox" placeholder="Enter definition" rows="1" name="flashcards[definition]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required><%= flashcard.definition %></textarea>
+                        <button type="button" class="btn del-flashcard-button" onclick="deleteCard(this)">
+                            <img src="/imgs/cross2.svg" height="20px" width="20px" alt="Cross Icon">
+                        </button>
+                        <input type="hidden" name="flashcards[id]" value="<%= flashcard.flashcardId %>">
+                    </li>
+                <% } %>
+            </ul>
+            
+            <hr>
+            <div>
+                <button type="button" class="add-flashcard-button lined thick" onclick="addCard()">
+                    <span>+ Add card</span>
+                </button>
+            </div>
+
+
+        </div>
+        <hr>
+
+        <div id="hidden-delete">
+
+        </div>
+
+        <button type="button" class="lined btn-dark cancel-button" onclick="window.location.replace(`/flashcards/<%= flashcardSet.setId %>`)">Cancel</button>
+        <button type="submit" class="lined create-submit-button mb-5">Save</button>
+        
+    </form>
+</div>
+<script>
+    function deleteCard(thisElem) {
+		let listItem = thisElem.parentNode;
+		let ul = listItem.parentNode;
+        let previousHr = listItem.previousElementSibling;
+        
+        if (thisElem.nextElementSibling !== null) {
+            let id = thisElem.nextElementSibling.value
+            let hiddenDelete = document.getElementById("hidden-delete")
+            let input = document.createElement("INPUT")
+            
+            input.setAttribute("type", "hidden")
+            input.setAttribute("name", "flashcards[delete]")
+            input.setAttribute("value", id)
+
+            hiddenDelete.appendChild(input)
+        }
+
+        ul.removeChild(previousHr);
+		ul.removeChild(listItem);
+    }
+
+    function checkEmpty() {
+        let titleText = document.getElementById("titleInput").value
+        let termCollection = document.getElementsByClassName("term-textbox")
+        let defCollection = document.getElementsByClassName("def-textbox")
+
+        if (termCollection.length === 0) {
+            alert("You must have at least one flashcard")
+            return false;
+        }
+
+        return true;
+    }
+
+    function addCard() {
+
+        let li = document.createElement("LI")
+        li.setAttribute("class", "flashcard-container")
+
+        let textareaTerm = document.createElement("TEXTAREA")
+        textareaTerm.setAttribute("class", "form-control term-textbox")
+        textareaTerm.setAttribute("placeholder", "Enter term")
+        textareaTerm.setAttribute("rows", "1")
+        textareaTerm.setAttribute("name", "flashcards[term]")
+        textareaTerm.setAttribute("required", "true")
+        textareaTerm.setAttribute("oninput", 'this.style.height = "";this.style.height = this.scrollHeight + "px"')
+
+        let textareaDefinition = document.createElement("TEXTAREA")
+        textareaDefinition.setAttribute("class", "form-control def-textbox")
+        textareaDefinition.setAttribute("placeholder", "Enter definition")
+        textareaDefinition.setAttribute("rows", "1")
+        textareaDefinition.setAttribute("name", "flashcards[definition]")
+        textareaDefinition.setAttribute("required", "true")
+        textareaDefinition.setAttribute("oninput", 'this.style.height = "";this.style.height = this.scrollHeight + "px"')
+        
+
+        let button = document.createElement("BUTTON")
+        button.setAttribute("type", "button")
+        button.setAttribute("class", "btn del-flashcard-button")
+        button.setAttribute("onclick", "deleteCard(this)")
+        button.innerHTML = '<img src="/imgs/cross2.svg" height="20px" width="20px" alt="Cross Icon">'
+
+        let input = document.createElement("INPUT")
+        input.setAttribute("type", "hidden")
+        input.setAttribute("name", "flashcards[id]")
+        input.setAttribute("value", "undefined")
+
+        li.appendChild(textareaTerm)
+        li.appendChild(textareaDefinition)
+        li.appendChild(button)
+        li.appendChild(input)
+        
+        let hr = document.createElement("HR")
+
+        let flashcardsList = document.getElementById("flashcards-list")
+        flashcardsList.appendChild(hr)
+        flashcardsList.appendChild(li)
+
+    }
+
+    $(document).ready(function () {
+      $('select').selectize({
+          sortField: 'text'
+      });
+    });
+
+
+    // set selected course option on page load
+    let options = document.getElementsByTagName("option")
+    let tags = <%- JSON.stringify(flashcardSet.tags) %>;
+    let tagsList = []
+    if (tags !== "") {
+        if (tags.includes(",")) {
+            tagsList = tags.split(",")
+            tags = tagsList[0]
+        }
+        for (let option of options) {
+            if (option.value === tags) {
+                option.selected = true
+                
+                if (tagsList.length !== 0) {
+                    // takes out course tag if it exists
+                    tagsList.shift()
+                }
+                // if course was only tag, set to undefined so loading custom tags block below doesnt run
+                tags = undefined
+            }
+        }
+    }
+  
+
+    // load custom tags 
+    if (tags !== undefined) {
+        $(document).ready(function () {
+            $('#custom-tags-input').tagsinput('add', tags);
+        })
+    } else if (tagsList.length > 0) {
+        for (let tag of tagsList) {
+            $(document).ready(function () {
+                $('#custom-tags-input').tagsinput('add', tag);
+            })
+        }
+
+    }
+
+
+    $(document).ready( function( ) {
+
+        $("textarea").each( function( i, el ) {
+            $(el).height( el.scrollHeight );
+        })})
+
+
+</script>
