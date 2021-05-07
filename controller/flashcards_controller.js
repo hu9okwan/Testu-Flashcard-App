@@ -3,7 +3,18 @@ const prisma = new PrismaClient()
 
 let flashcardsController = {
     list: async(req, res) => {
-
+        let userId = req.session.passport.user
+        let allFlashcards = await prisma.flashcardsSet.findMany({
+            where: { userId: userId },
+            include: {
+                _count: { 
+                    select: { 
+                        flashcards: true
+                    }
+                }
+            }
+        })
+        res.render("flashcards/index", { flashcardsSets: allFlashcards });
     },
 
 
