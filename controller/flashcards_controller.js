@@ -220,7 +220,24 @@ let flashcardsController = {
     },
 
     delete: async (req, res) => {
+        // delete entire flashcard set
+        let flashcardSetToDelete = parseInt(req.params.id)
 
+        const deleteFlashcards = prisma.flashcard.deleteMany({
+            where: {
+                flashcardsSetId: flashcardSetToDelete
+            }
+        })
+
+        const deleteFlashcardSet = prisma.flashcardsSet.delete({
+            where: {
+                setId: flashcardSetToDelete
+            }
+        })
+
+        await prisma.$transaction([deleteFlashcards, deleteFlashcardSet])
+
+        res.redirect("/flashcards")
     },
 
 };
