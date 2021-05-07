@@ -1,0 +1,45 @@
+// https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["selectRelationCount"]
+}
+
+model User {
+    id              String          @id @default(uuid())
+    email           String          @unique
+    name            String
+    password        String
+    flashcardsset   FlashcardsSet[]
+
+    @@map(name: "users")
+}
+
+model FlashcardsSet {
+    setId           Int             @id @default(autoincrement())
+    title           String
+    description     String?
+    flashcards      Flashcard[]
+    tags            String?
+    createdAt       DateTime        @default(now()) @map("created_at")
+    user            User            @relation(fields: [userId], references: [id])
+    userId          String
+
+    @@map(name: "flashcardsSets")
+}
+
+model Flashcard {
+    flashcardId     String          @id @default(uuid())
+    term            String
+    definition      String
+
+    flashcardsSet   FlashcardsSet   @relation(fields: [flashcardsSetId], references: [setId])
+    flashcardsSetId Int
+
+    @@map(name: "flashcards")
+}
