@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/" style="font-weight: bold;">
+        <img src="/imgs/logo3.svg" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+        Testu
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+
+        <% if (typeof loggedIn == 'undefined') { %>
+            
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-item nav-link" href="/flashcards">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-item nav-link" href="/flashcards/new">Create</a>
+                </li>
+                <!-- <a class="nav-item nav-link" href="/friends">Friends</a> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        <% } %>
+
+    </div>
+</nav>

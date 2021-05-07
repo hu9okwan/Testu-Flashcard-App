@@ -1,0 +1,563 @@
+.deleteForm {
+    display: inline-block
+}
+
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+header.masthead {
+    position: relative;
+    background-color: #fff;
+    background: url("https://image.freepik.com/free-vector/reading-list-concept-illustration_114360-1005.jpg") no-repeat right center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.2;
+}
+
+header.masthead h1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    header.masthead {
+        padding-top: 12rem;
+        padding-bottom: 12rem;
+    }
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+.showcase .showcase-text {
+    padding: 3rem;
+}
+
+.showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .showcase .showcase-text {
+        padding: 7rem;
+    }
+}
+
+.features-icons {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.features-icons .features-icons-item {
+    max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+    font-size: 5rem;
+}
+
+.testimonials {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.testimonials .testimonial-item {
+    max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+    max-width: 12rem;
+    box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("./img/bg-masthead.jpg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.form-signin .checkbox {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+
+
+.flexbox {
+    display: flex
+}
+
+.list-group {
+    flex-grow: 1;
+}
+
+
+
+
+
+.navbar-nav {
+    float: right;
+}
+
+
+/* Code from https://www.w3schools.com/howto/howto_css_flip_card.asp */
+.flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    /* default was width 300px, height 200px */
+    /* border: 1px solid #f1f1f1; */
+    perspective: 1000px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.flip-card-shuffle {
+    background-color: transparent;
+    width: 650px;
+    height: 400px;
+    perspective: 1000px;
+    display: inline-block;
+    margin: 10px;
+}
+
+
+  
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: 25px;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+    /* If you want hover to flip instead, uncomment next line and the css block after this one*/
+    /* transform: rotateY(180deg);  */
+    cursor: pointer;
+}
+
+.flip-card-shuffle {
+    cursor: pointer;
+}
+
+.flip-card-horizontal {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    background-color: white;
+    color: black;
+    /* border-style: solid; */
+    border-width: 1px;
+}
+
+/* Style the back side */
+.flip-card-back {
+    background-color: dodgerblue;
+    /* color: white; */
+    transform: rotateY(180deg);
+}
+
+
+.flashcards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.flip-card-front, .flip-card-back {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+
+
+    /* overflow: auto;  */
+    white-space: pre-wrap;
+
+    /* display flashcard image for background */
+    background-image: url("/imgs/Flashcard.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 1px 2px lightgray;
+    box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+
+    transition:all .5s ease;
+}
+
+.flip-card-front:hover, .flip-card-back:hover {
+    box-shadow:2px 8px 4px -6px
+}
+
+
+.flashcard-content, #term-shuffle, #def-shuffle {
+    /* height: 80%; */
+    margin-top: 20px;
+    overflow: auto;
+    /* box-sizing: content-box; */
+    /* overflow:   scroll; */
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.flashcard-term, .flashcard-def {
+    padding-left: 20px;
+    white-space: pre-wrap;
+
+}
+
+
+.flashcard-term {
+    border-right: 1px dotted lightgray;
+    width: 40%;
+}
+
+.flashcard-def {
+    width: 60%;
+}
+
+
+.flashcard-box {
+    display: flex;
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+}
+
+.flip-card-home-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-card-home {
+    background-color: transparent;
+    width: 50%;
+    height: 30%;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.login-button, .signup-button {
+    display: inline-block;
+    margin: 2px;
+}
+
+.flip-card-inner-home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+
+}
+
+.buttons-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.flip-card-front-home, .flip-card-back-home {
+    box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+
+    transition:all .5s ease;
+}
+
+.flip-card-front-home:hover, .flip-card-back-home:hover{
+    box-shadow:2px 8px 4px -6px
+}
+
+.flip-card-front-home {
+
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 10px;
+}
+
+.flip-card-back-home {
+    transform: rotateY(180deg);
+
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+
+
+
+
+.terms-length {
+    color: grey
+}
+
+/* Create page */
+
+.flashcards-label {
+    margin: 0;
+}
+
+.create-submit-button, .cancel-button {
+    float: right;
+    margin-left: 5px;
+}
+
+.add-flashcard-button {
+    width: 100%;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text);
+    color: grey
+}
+
+.term-textbox, .def-textbox {
+    width: 45%;
+    min-height: 40px;
+    overflow: hidden;
+    resize: none;
+}
+
+.del-flashcard-button {
+    align-self: flex-start; 
+}
+
+.del-flashcard-button:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.flashcard-container {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.break {
+    flex-basis: 100%;
+    /* height: 0; */
+    margin-bottom: 20px;
+}
+
+#progress-num {
+    text-align: center;
+    color: grey
+}
+
+.progress-sm {
+    height: 0.2rem!important;
+  }
+
+#prev-card, #next-card {
+    align-self: center;
+}
+
+.bootstrap-tagsinput{
+    width: 100%;
+}
+
+.label-info{
+    background-color: #0275d8;
+
+}
+
+.label {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,
+    border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+
+
+header {
+    background-color: #f8f9fa;
+    border-radius: 25px;
+    border: solid 1px lightgray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+h1, h2, h3 {
+    font-family: 'Indie Flower', sans-serif;
+    text-align: center;
+    font-size: 300%;
+}
+
+h1 {
+    margin-top: 20px;
+    /* margin-bottom: 20px; */
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    /* font-size: large; */
+}
+
+.flashcard-title-index {
+    font-size: x-large;
+}
+
+#shuffle-mode, #flashcard-mode {
+    font-family: 'Dekko', cursive;
+    font-size: xx-large;
+}
+
+#flashcard-mode {
+    font-size: large;
+}
+
+
+
+.underline-bottom {
+    border-bottom: 5px solid #343a40;
+}
+
+.mode-button:hover, #prev-card:hover, #next-card:hover {
+    border-bottom: 5px solid #343a40;
+}
+.edit-button:hover {
+    border-bottom: 5px solid #ffc107;
+}
+
+.delete-button:hover {
+    border-bottom: 5px solid #d9534f;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
+
+
+
+
+
+button {
+    align-self:center;
+    background:transparent;
+    /* padding:1rem 1rem; */
+    /* margin:0 1rem; */
+    transition:all .5s ease;
+    color:#41403E;
+    font-size:1.5rem;
+    letter-spacing:1px;
+    outline:none;
+    /* box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2); */
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    /*
+    Above is shorthand for:
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+    border-bottom-right-radius: 225px 15px;
+    border-bottom-left-radius:15px 255px;
+    */
+    font-family: "Indie Flower", arial;
+    
+}
+.lined.thick {
+    border:solid 3px #41403E;
+}
+.lined.thin {
+    border:solid 2px #41403E;
+}
