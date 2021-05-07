@@ -3,7 +3,7 @@ const userController = require("./user_controller");
 
 let authController = {
     login: (req, res) => {
-
+        res.render("auth/login", { loggedIn: false });
     },
 
     register: (req, res) => {
@@ -11,7 +11,10 @@ let authController = {
     },
 
     loginSubmit: (req, res, next) => {
-
+        passport.authenticate("local", {
+            successRedirect: "/flashcards",
+            failureRedirect: "back",
+        })(req, res, next);
     },
 
     registerSubmit: async (req, res, next) => {
@@ -19,7 +22,8 @@ let authController = {
     },
 
     logout: (req, res) => {
-
+        req.logout();
+        res.redirect("/")
     }
 };
 
