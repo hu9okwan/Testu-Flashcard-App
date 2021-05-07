@@ -23,7 +23,36 @@ let flashcardsController = {
     },
 
     listOne: async (req, res) => {
+        let userId = req.session.passport.user
+        let flashcardSetToFind = parseInt(req.params.id);
+        let flashcardSet = await prisma.flashcardsSet.findUnique({
+            where: { setId: flashcardSetToFind }
+        })
 
+        let allFlashcards = await prisma.flashcardsSet.findMany({
+            where: { userId: userId },
+            include: {
+                _count: { 
+                    select: { 
+                        flashcards: true
+                    }
+                }
+            }
+        })
+
+        if (flashcardSet !== null && flashcardSet.userId === userId) {
+
+            let searchResult = await prisma.flashcard.findMany({
+                where: {flashcardsSetId: flashcardSetToFind}
+            })
+
+
+            if (searchResult.length > 0) {
+                res.render("flashcards/flashcard_set", { flashcardSet: flashcardSet, allFlashcards: searchResult });
+            } 
+        } else {
+            res.render("flashcards/index", { flashcardsSets: allFlashcards });
+        }
     },
 
     create: async (req, res) => {
