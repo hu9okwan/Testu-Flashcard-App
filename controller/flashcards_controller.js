@@ -101,7 +101,17 @@ let flashcardsController = {
     },
 
     edit: async (req, res) => {
+        let flashcardSetToFind = parseInt(req.params.id);
 
+        let searchResultSet = await prisma.flashcardsSet.findUnique({
+            where: {setId: flashcardSetToFind}
+        })
+
+        let searchResultFlashcards = await prisma.flashcard.findMany({
+            where: {flashcardsSetId: flashcardSetToFind}
+        })
+
+        res.render("flashcards/edit", { flashcardSet: searchResultSet, flashcards: searchResultFlashcards });
     },
 
     update: async (req, res) => {
