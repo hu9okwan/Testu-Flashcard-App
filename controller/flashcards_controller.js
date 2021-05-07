@@ -115,7 +115,108 @@ let flashcardsController = {
     },
 
     update: async (req, res) => {
+        let flashcardSetToUpdate = parseInt(req.params.id);
+        let { title, description } = req.body;
+        
+  
+        flashcards = []
+        let ids = req.body.flashcards.id;
+        let keys = req.body.flashcards.term;
+        let values = req.body.flashcards.definition;
+        // console.log(ids, keys, values)
+        if (Array.isArray(keys)) {
 
+            ids.forEach((ids, i) => {
+                if (ids[i] !== "undefined") {
+                    newFlashcard = {id: ids, term: keys[i], definition: values[i]};
+                    flashcards.push(newFlashcard);
+                } 
+                else {
+                    newFlashcard = { term: keys[i], definition: values[i] };
+                    flashcards.push(newFlashcard);
+                }
+            })
+        } else { // case where there is only 1 flashcard
+            if (ids !== "undefined") {
+                flashcards.push({id: ids, term: keys, definition: values})
+            } else {
+                flashcards.push({id: "undefined", term: keys, definition: values})
+            }
+        }
+
+
+        // format tags into a string of tags separated with a comma
+        let tags = req.body.tags
+        let tagString = ""
+        if (tags[0] !== "") {
+            tagString += tags[0]
+        }
+        if (tags[0] !== "" && tags [1] !== "") {
+            tagString += ","
+        }
+        if (tags[1] !== "") {
+            tagString += tags[1]
+        }
+        
+
+
+        // delete flashcards
+        let deleteIds = req.body.flashcards.delete;
+        
+        if (!Array.isArray(deleteIds)) {
+            deleteIds = []
+            deleteIds.push(req.body.flashcards.delete)
+        }
+
+        if (deleteIds[0] !== undefined) {
+            for (let id of deleteIds) {
+                await prisma.flashcard.delete({
+                    where: {
+                        flashcardId: id
+                    }
+                })
+            }
+        }
+
+        // update title, description, and tags of flashcardSet
+        await prisma.flashcardsSet.update({
+            where: { 
+                setId: flashcardSetToUpdate
+            },
+            data: {
+                title: title,
+                description: description,
+                tags: tagString
+            }
+        })
+
+        
+        // update flashcards 
+        for (flashcard of flashcards) {
+            // create flashcard if it doesnt exist
+            if (flashcard.id === "undefined"){
+                await prisma.flashcard.create({
+                    data: {
+                        term: flashcard.term,
+                        definition: flashcard.definition,
+                        flashcardsSetId: flashcardSetToUpdate
+                    }
+                })
+            } else { // update terms and definitions if flash card exists
+                
+                await prisma.flashcard.update({
+                    where: {
+                        flashcardId: flashcard.id
+                    },
+                    data: {
+                        term: flashcard.term,
+                        definition: flashcard.definition
+                    }
+                })
+            }
+        }
+
+        res.redirect(`/flashcards/${flashcardSetToUpdate}`);
     },
 
     delete: async (req, res) => {
