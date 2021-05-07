@@ -1,0 +1,55 @@
+<div class="container">
+  <form method="POST" action="/register">
+    <header>
+        <h3 class="text-center pt-4 pb-4">Register</h3>
+    </header>
+    <div class="form-group">
+        <label for="name">Full Name</label>
+        <input class="form-control" id="new-name" placeholder="John Smith" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <% if (newEmail !== null && !emailIsTaken) { %>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="<%= newEmail %>" name="email" required>
+        <% } else { %>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+        <% } %>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <% if (emailIsTaken) { %>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            An account with this email already exists. <a href="/login" class="alert-link">Click here</a> to login if this is your account.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+      <% } %>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" required>
+    </div>
+    
+    <button type="submit" class="lined float-right">Submit</button>
+  </form>
+</div>
+
+<script>
+
+let password = document.getElementById("exampleInputPassword1")
+let passwordConfirm = document.getElementById("exampleInputPassword2");
+
+function validatePassword() {
+
+    if (password.value !== passwordConfirm.value) {
+        passwordConfirm.setCustomValidity("Password does not match");
+    } else {
+        passwordConfirm.setCustomValidity('');
+    }
+}
+password.onchange = validatePassword;
+passwordConfirm.onkeyup = validatePassword;
+
+</script>
