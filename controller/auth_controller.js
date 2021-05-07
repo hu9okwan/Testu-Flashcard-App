@@ -7,7 +7,8 @@ let authController = {
     },
 
     register: (req, res) => {
-
+        newEmail = req.query.newEmail
+        res.render("auth/register", { loggedIn: false, newEmail: newEmail, emailIsTaken: false });
     },
 
     loginSubmit: (req, res, next) => {
@@ -18,7 +19,18 @@ let authController = {
     },
 
     registerSubmit: async (req, res, next) => {
+        let { name, email, password } = req.body
 
+        let registerResult = await userController.registerUser(name, email, password)
+
+        if (registerResult) {
+            passport.authenticate("local", {
+                successRedirect: "/flashcards",
+                failureRedirect: "/login",
+            })(req, res, next);
+        } else {
+            res.render("auth/register", { loggedIn: false, emailIsTaken: true })
+        }
     },
 
     logout: (req, res) => {
