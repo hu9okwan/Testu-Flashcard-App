@@ -4,15 +4,12 @@ const path = require("path");
 const ejsLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 
-const { PrismaClient } = require("@prisma/client")
-const prisma = new PrismaClient()
-
 
 app.use(express.static(path.join(__dirname, "public")));
 
 const flashcardsController = require("./controller/flashcards_controller");
 const authController = require("./controller/auth_controller");
-const userController = require("./controller/user_controller");
+
 const passport = require("./middleware/passport");
 const { ensureAuthenticated, forwardAuthenticated } = require("./middleware/checkAuth")
 app.use(express.urlencoded({ extended: true }));
@@ -41,9 +38,17 @@ app.set("view engine", "ejs");
 
 
 
+
+// maybe convert to router when theres time
+
 app.get("/login", forwardAuthenticated, authController.login);
 app.post("/login", forwardAuthenticated, authController.loginSubmit);
 app.get("/logout", authController.logout)
+
+// register page
+app.get("/register", forwardAuthenticated, authController.register);
+app.post("/register", authController.registerSubmit);
+
 
 
 // all flashcard sets route
@@ -51,6 +56,9 @@ app.get("/flashcards", ensureAuthenticated, flashcardsController.list);
 
 // create new flashcard set route
 app.get("/flashcards/new", ensureAuthenticated, flashcardsController.new);
+
+// get search results
+app.get("/flashcards/search", ensureAuthenticated, flashcardsController.listSearch)
 
 // single flashcard set route
 app.get("/flashcards/:id", ensureAuthenticated, flashcardsController.listOne);
@@ -65,9 +73,6 @@ app.post("/flashcards/update/:id", ensureAuthenticated, flashcardsController.upd
 app.post("/flashcards/delete/:id", ensureAuthenticated, flashcardsController.delete);
 
 
-// register page
-app.get("/register", forwardAuthenticated, authController.register);
-app.post("/register", authController.registerSubmit);
 
 
 
