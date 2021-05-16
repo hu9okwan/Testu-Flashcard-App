@@ -1,21 +1,21 @@
 <div class="container">
-    <header>
+    <header class="mb-5">
         <h1 class="pt-4 pb-4"><img src="/imgs/create.svg" height="50px" width="50px" alt="Create Icon"> Create a new set</h1>
     </header>
     <form action="/flashcards" method="POST" id="createForm" onsubmit="return checkEmpty()">
         <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="titleInput" placeholder="Title" name="title" required>
+            <input type="text" class="" id="titleInput" placeholder="Title" name="title" maxlength="50" required>
+            <label for="title" class="label-font pt-2">Title</label>
         </div>
         <div class="form-group">
-            <label for="description">Description (optional)</label>
-            <textarea class="form-control" id="descriptionInput" rows="1" placeholder="Description" name="description"></textarea>
+            <textarea class="" id="descriptionInput" maxlength="110" rows="1" placeholder="Description (optional)" name="description"></textarea>
+            <label for="description" class="label-font">Description</label>
         </div>
 
         <div class="form-group">
-            <label for="tags">Tags (optional)</label>
+            
 
-            <select id="select-course" class="form-control" name="tags[]" placeholder="Select a course...">
+            <select id="select-course" class="" name="tags[]" placeholder="Select a course...">
                 <option value="">Select a course...</option>
                 <option value="ACIT 1420">ACIT 1420 - Introduction to Systems Administration</option>
                 <option value="ACIT 1515">ACIT 1515	- Scripting for IT</option>
@@ -62,17 +62,31 @@
                 <option value="ACIT 3990">ACIT 3990 - Co-operative Education Workterm 2</option>
               </select>
             </span>
-            <input type="text" data-role="tagsinput" name="tags[]" class="form-control" placeholder="Add a custom tag">
+            <input type="text" data-role="tagsinput" name="tags[]" class="" placeholder="Add custom tag">
+            <label class="label-under label-font" for="tags">Tags</label>
         </div>
+
+
+        <div class="form-group pt-4">
+            <label for="completed" class="label-font mr-3">Visibility</label>
+            
+            <select class="select-private" name="private" >
+                <option value="false">For everyone</option>
+                <option value="true">Only me</option>
+            </select>
+
+        </div>
+
+
 
         
         <div class="form-group">
-            <label class="flashcards-label">Flashcards</label>
+            <label class="flashcards-label label-font mt-5">Flashcards</label>
             <ul id="flashcards-list" class="list-unstyled">
                 <hr>
                 <li class="flashcard-container">
-                    <textarea class="form-control term-textbox" placeholder="Enter term" rows="1" name="flashcards[term]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required></textarea>
-                    <textarea class="form-control def-textbox" placeholder="Enter definition" rows="1" name="flashcards[definition]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required></textarea>
+                    <textarea class=" term-textbox" placeholder="Enter term" rows="1" name="flashcards[term]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required></textarea>
+                    <textarea class=" def-textbox" placeholder="Enter definition" rows="1" name="flashcards[definition]" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' required></textarea>
                     <button type="button" class="btn del-flashcard-button" onclick="deleteCard(this)">
                         <img src="/imgs/cross2.svg" height="20px" width="20px" alt="Cross Icon">
                     </button>
@@ -81,7 +95,7 @@
             </ul>
             <hr>
             <div>
-                <button type="button" class="add-flashcard-button lined thick" onclick="addCard()">
+                <button type="button" class="add-flashcard-button hover-dark lined thick" onclick="addCard()">
                     <span>+ Add card</span>
                 </button>
             </div>
@@ -89,8 +103,8 @@
 
         </div>
         <hr>
-        <button type="button" class="lined btn-dark cancel-button" onclick="window.location.replace(`/flashcards`)">Cancel</button>
-        <button type="submit" class="lined create-submit-button mb-5">Create</button>
+        <button type="button" class="lined btn-dark cancel-button ml-2" onclick="window.location.replace(`/flashcards`)">Cancel</button>
+        <button type="submit" class="lined create-submit-button hover-dark mb-5">Create</button>
     </form>
 </div>
 
@@ -124,7 +138,7 @@
         li.setAttribute("class", "flashcard-container")
 
         let textareaTerm = document.createElement("TEXTAREA")
-        textareaTerm.setAttribute("class", "form-control term-textbox")
+        textareaTerm.setAttribute("class", "term-textbox")
         textareaTerm.setAttribute("placeholder", "Enter term")
         textareaTerm.setAttribute("rows", "1")
         textareaTerm.setAttribute("name", "flashcards[term]")
@@ -132,7 +146,7 @@
         textareaTerm.setAttribute("oninput", 'this.style.height = "";this.style.height = this.scrollHeight + "px"')
 
         let textareaDefinition = document.createElement("TEXTAREA")
-        textareaDefinition.setAttribute("class", "form-control def-textbox")
+        textareaDefinition.setAttribute("class", "def-textbox")
         textareaDefinition.setAttribute("placeholder", "Enter definition")
         textareaDefinition.setAttribute("rows", "1")
         textareaDefinition.setAttribute("name", "flashcards[definition]")
