@@ -3,6 +3,9 @@ const prisma = new PrismaClient()
 
 let flashcardsController = {
     list: async(req, res) => {
+
+        // let allFlashcards = req.user.flashcardsSets;
+
         let userId = req.session.passport.user
         let allFlashcards = await prisma.flashcardsSet.findMany({
             where: { userId: userId },
@@ -26,21 +29,21 @@ let flashcardsController = {
         let userId = req.session.passport.user
         let flashcardSetToFind = parseInt(req.params.id);
         let flashcardSet = await prisma.flashcardsSet.findUnique({
-            where: { setId: flashcardSetToFind }
-        })
-
-        let allFlashcards = await prisma.flashcardsSet.findMany({
-            where: { userId: userId },
+            where: { setId: flashcardSetToFind },
             include: {
-                _count: { 
-                    select: { 
-                        flashcards: true
+                user: {
+                    select: {
+                        name: true
                     }
                 }
             }
         })
 
-        if (flashcardSet !== null && flashcardSet.userId === userId) {
+
+
+       
+        // only users of the set can see it or if the set is not privated
+        if (flashcardSet !== null && (flashcardSet.userId === userId || flashcardSet.private === false)) {  
 
             let searchResult = await prisma.flashcard.findMany({
                 where: {flashcardsSetId: flashcardSetToFind}
@@ -50,12 +53,31 @@ let flashcardsController = {
             if (searchResult.length > 0) {
                 res.render("flashcards/flashcard_set", { flashcardSet: flashcardSet, allFlashcards: searchResult });
             } 
+        } else if (flashcardSet !== null && flashcardSet.private === true) {
+            //case where flashcard set is privated
+
+            res.render("flashcards/error")
         } else {
+            // case where flashcard set does not exist
+
+            let allFlashcards = await prisma.flashcardsSet.findMany({
+                where: { userId: userId },
+                include: {
+                    _count: { 
+                        select: { 
+                            flashcards: true
+                        }
+                    },
+                }
+            })
+
             res.render("flashcards/index", { flashcardsSets: allFlashcards });
         }
     },
 
     create: async (req, res) => {
+
+
         let userId = req.session.passport.user
 
         flashcards = []
@@ -84,12 +106,14 @@ let flashcardsController = {
         }
 
 
+
         // creates a new flashcardset and creates related flashcards
         await prisma.flashcardsSet.create({
             data: {
                 title: req.body.title,
                 description: req.body.description,
                 userId: userId,
+                private: JSON.parse(req.body.private),
                 flashcards: {
                     create: flashcards
                 },
@@ -115,129 +139,199 @@ let flashcardsController = {
     },
 
     update: async (req, res) => {
+
         let flashcardSetToUpdate = parseInt(req.params.id);
-        let { title, description } = req.body;
-        
-  
-        flashcards = []
-        let ids = req.body.flashcards.id;
-        let keys = req.body.flashcards.term;
-        let values = req.body.flashcards.definition;
-        // console.log(ids, keys, values)
-        if (Array.isArray(keys)) {
 
-            ids.forEach((ids, i) => {
-                if (ids[i] !== "undefined") {
-                    newFlashcard = {id: ids, term: keys[i], definition: values[i]};
-                    flashcards.push(newFlashcard);
-                } 
-                else {
-                    newFlashcard = { term: keys[i], definition: values[i] };
-                    flashcards.push(newFlashcard);
-                }
-            })
-        } else { // case where there is only 1 flashcard
-            if (ids !== "undefined") {
-                flashcards.push({id: ids, term: keys, definition: values})
-            } else {
-                flashcards.push({id: "undefined", term: keys, definition: values})
-            }
-        }
-
-
-        // format tags into a string of tags separated with a comma
-        let tags = req.body.tags
-        let tagString = ""
-        if (tags[0] !== "") {
-            tagString += tags[0]
-        }
-        if (tags[0] !== "" && tags [1] !== "") {
-            tagString += ","
-        }
-        if (tags[1] !== "") {
-            tagString += tags[1]
-        }
-        
-
-
-        // delete flashcards
-        let deleteIds = req.body.flashcards.delete;
-        
-        if (!Array.isArray(deleteIds)) {
-            deleteIds = []
-            deleteIds.push(req.body.flashcards.delete)
-        }
-
-        if (deleteIds[0] !== undefined) {
-            for (let id of deleteIds) {
-                await prisma.flashcard.delete({
-                    where: {
-                        flashcardId: id
-                    }
-                })
-            }
-        }
-
-        // update title, description, and tags of flashcardSet
-        await prisma.flashcardsSet.update({
-            where: { 
-                setId: flashcardSetToUpdate
-            },
-            data: {
-                title: title,
-                description: description,
-                tags: tagString
-            }
+        // verify flashcard owner before updating
+        currentUserId = req.session.passport.user
+        flashcardSet = await prisma.flashcardsSet.findUnique({
+            where: {setId: flashcardSetToUpdate}
         })
 
-        
-        // update flashcards 
-        for (flashcard of flashcards) {
-            // create flashcard if it doesnt exist
-            if (flashcard.id === "undefined"){
-                await prisma.flashcard.create({
-                    data: {
-                        term: flashcard.term,
-                        definition: flashcard.definition,
-                        flashcardsSetId: flashcardSetToUpdate
+
+        if (currentUserId === flashcardSet.userId) {
+            let { title, description } = req.body;
+            
+    
+            flashcards = []
+            let ids = req.body.flashcards.id;
+            let keys = req.body.flashcards.term;
+            let values = req.body.flashcards.definition;
+            // console.log(ids, keys, values)
+            if (Array.isArray(keys)) {
+
+                ids.forEach((ids, i) => {
+                    if (ids[i] !== "undefined") {
+                        newFlashcard = {id: ids, term: keys[i], definition: values[i]};
+                        flashcards.push(newFlashcard);
+                    } 
+                    else {
+                        newFlashcard = { term: keys[i], definition: values[i] };
+                        flashcards.push(newFlashcard);
                     }
                 })
-            } else { // update terms and definitions if flash card exists
-                
-                await prisma.flashcard.update({
-                    where: {
-                        flashcardId: flashcard.id
-                    },
-                    data: {
-                        term: flashcard.term,
-                        definition: flashcard.definition
-                    }
-                })
+            } else { // case where there is only 1 flashcard
+                if (ids !== "undefined") {
+                    flashcards.push({id: ids, term: keys, definition: values})
+                } else {
+                    flashcards.push({id: "undefined", term: keys, definition: values})
+                }
+            }
+
+
+            // format tags into a string of tags separated with a comma
+            let tags = req.body.tags
+            let tagString = ""
+            if (tags[0] !== "") {
+                tagString += tags[0]
+            }
+            if (tags[0] !== "" && tags [1] !== "") {
+                tagString += ","
+            }
+            if (tags[1] !== "") {
+                tagString += tags[1]
+            }
+            
+
+
+            // delete flashcards
+            let deleteIds = req.body.flashcards.delete;
+            
+            if (!Array.isArray(deleteIds)) {
+                deleteIds = []
+                deleteIds.push(req.body.flashcards.delete)
+            }
+
+            if (deleteIds[0] !== undefined) {
+                for (let id of deleteIds) {
+                    await prisma.flashcard.delete({
+                        where: {
+                            flashcardId: id
+                        }
+                    })
+                }
+            }
+
+            // update title, description, and tags of flashcardSet
+            await prisma.flashcardsSet.update({
+                where: { 
+                    setId: flashcardSetToUpdate
+                },
+                data: {
+                    title: title,
+                    description: description,
+                    tags: tagString,
+                    private: JSON.parse(req.body.private), 
+                }
+            })
+
+            
+            // update flashcards 
+            for (flashcard of flashcards) {
+                // create flashcard if it doesnt exist
+                if (flashcard.id === "undefined"){
+                    await prisma.flashcard.create({
+                        data: {
+                            term: flashcard.term,
+                            definition: flashcard.definition,
+                            flashcardsSetId: flashcardSetToUpdate
+                        }
+                    })
+                } else { // update terms and definitions if flash card exists
+                    
+                    await prisma.flashcard.update({
+                        where: {
+                            flashcardId: flashcard.id
+                        },
+                        data: {
+                            term: flashcard.term,
+                            definition: flashcard.definition
+                        }
+                    })
+                }
             }
         }
+
 
         res.redirect(`/flashcards/${flashcardSetToUpdate}`);
     },
 
     delete: async (req, res) => {
-        // delete entire flashcard set
+
         let flashcardSetToDelete = parseInt(req.params.id)
 
-        const deleteFlashcards = prisma.flashcard.deleteMany({
-            where: {
-                flashcardsSetId: flashcardSetToDelete
+
+        // check if user deleting owns the set
+        currentUserId = req.session.passport.user
+        flashcardSet = await prisma.flashcardsSet.findUnique({
+            where: {setId: flashcardSetToDelete}
+        })
+
+
+        if (currentUserId === flashcardSet.userId) {
+
+        // delete entire flashcard set
+        
+            const deleteFlashcards = prisma.flashcard.deleteMany({
+                where: {
+                    flashcardsSetId: flashcardSetToDelete
+                }
+            })
+
+            const deleteFlashcardSet = prisma.flashcardsSet.delete({
+                where: {
+                    setId: flashcardSetToDelete
+                }
+            })
+
+            await prisma.$transaction([deleteFlashcards, deleteFlashcardSet])
+
+            res.redirect("/flashcards")
+        } else {
+            res.redirect(`/flashcards/${flashcardSetToDelete}`);
+        }
+
+        
+
+    },
+
+    listSearch: async (req, res) => {
+
+        searchInput = req.query.input
+        
+        let allFlashcards = await prisma.flashcardsSet.findMany({
+            where: { 
+                private: false,
+                OR: [
+                    
+                    {
+                        title: {
+                            contains: searchInput
+                        },
+                    },
+                    {
+                        tags: {
+                            contains: searchInput
+                        }
+                    },
+                ]
+            },
+            include: {
+                _count: { 
+                    select: { 
+                        flashcards: true
+                    }
+                },
+                user: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         })
 
-        const deleteFlashcardSet = prisma.flashcardsSet.delete({
-            where: {
-                setId: flashcardSetToDelete
-            }
-        })
+        res.render("flashcards/search", { flashcardsSets: allFlashcards });
 
-        await prisma.$transaction([deleteFlashcards, deleteFlashcardSet])
-
-        res.redirect("/flashcards")
     },
 
 };

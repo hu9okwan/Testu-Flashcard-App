@@ -26,6 +26,7 @@ model FlashcardsSet {
     description     String?
     flashcards      Flashcard[]
     tags            String?
+    private         Boolean         @default(false)
     createdAt       DateTime        @default(now()) @map("created_at")
     user            User            @relation(fields: [userId], references: [id])
     userId          String
