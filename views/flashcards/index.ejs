@@ -1,42 +1,59 @@
 <div class="container">
     <header>
     <h1 class="page-header pt-4 pb-4">
-        <img src="/imgs/flashcardset.svg" height="50px" width="50px" alt="Flashcard Sets Icon">
+        <img src="/imgs/flashcardset.png" height="100px" width="130px" alt="Flashcard Sets Icon">
         My Flashcard Sets
     </h1>
 </header>
 
-    <div>
-        <input type="text" class="form-control" id="userInput" onkeyup="filterTags()" placeholder="Filter by tags" >
+    <div class="filter-input-container">
+        <span></span>
+        <input type="text" class="search-focus" name="input" id="userInputFilter" onkeyup="filterTags()" placeholder="Filter by tags" autocomplete="off">
     </div>
+    <hr>
 
     <div>
-        <ul class="list-group" id="flashcards-set-ul">
+
+                    
+        <ul id="flashcards-set-ul">
             <% if (flashcardsSets.length > 0) { %>
                 <% flashcardsSets.forEach(function (flashcardSet) { %>
-                    <li class="list-group-item">
-                        <strong class="flashcard-title-index"><%= flashcardSet.title %></strong>
-
-                        <% if (flashcardSet.tags !== "") { %>
-                            <% if (flashcardSet.tags.includes(",")) { %>
-                                <% let tagsList = flashcardSet.tags.split(",") %>
-                                <% for (let tag of tagsList) { %>
-                                    <span class="badge badge-dark"><%= tag %></span>
+                    <li class="col">
+                        <a href="/flashcards/<%= flashcardSet.setId %>" class="card card-3 stacked--fan-right">
+                            <div class="content">
+                                <strong class="flashcard-title-index"><%= flashcardSet.title %></strong>
+                                <p>
+                                <% if (flashcardSet.tags !== "") { %>
+                                    <% if (flashcardSet.tags.includes(",")) { %>
+                                        <% let tagsList = flashcardSet.tags.split(",") %>
+                                        <% for (let tag of tagsList) { %>
+                                            <span class="badge badge-dark"><%= tag %></span>
+                                        <% } %>
+                                    <% } else { %>
+                                        <span class="badge badge-dark"><%= flashcardSet.tags %></span>
+                                    <% } %>
+                                <% } else { %>
+                                    <span></span> 
                                 <% } %>
-                            <% } else { %>
-                                <span class="badge badge-dark"><%= flashcardSet.tags %></span>
-                            <% } %>
-                        <% } else { %>
-                            <!-- add empty span for sets with no tags so it filters properly -->
-                            <span></span> 
-                        <% } %>
-                        
-                        <a class="pull-right" href=<%="/flashcards/" + flashcardSet.setId %>>View</a>
-                        <p class="terms-length"><%= flashcardSet._count.flashcards %> Flashcards</p>
+                                </p>
+                                
+                                <p class="terms-length text-muted"><%= flashcardSet._count.flashcards %> Flashcards
+                                    <% if (flashcardSet.private) { %>
+                                    <img src="/imgs/private.svg" height="20px" width="20px" alt="Private Icon">
+                                    <% } %>
+                                </p>
+                            </div>
+                        </a>
                     </li>
+
+
+
+
+
                 <% }) %>
+
             <% } else { %>
-                <li class="list-group-item">
+                <li class="list-group-item text-center" style="width: 100%;">
                     You currently have no flash cards. <a class="nav-item nav-link" href="/flashcards/new">Click here to create a new set!</a>
                 </li>
             <% } %>
@@ -45,7 +62,7 @@
 </div>
 <script>
     function filterTags() {
-        let input = document.getElementById('userInput');
+        let input = document.getElementById('userInputFilter');
         let filter = input.value.toUpperCase();
         let ul = document.getElementById("flashcards-set-ul");
         let flashcardSetElems = ul.getElementsByTagName('li');
@@ -58,12 +75,6 @@
             for (let span of spans) {
                 textValue = span.textContent || span.innerText;
                 
-                // if (textValue.toUpperCase().indexOf(filter) > -1) {
-                //     flashcardSetElems[i].style.display = "";
-                // } else {
-                //     flashcardSetElems[i].style.display = "none";
-                // }
-
                 if (textValue.toUpperCase().includes(filter)) {
                     console.log(textValue)
                     flashcardSetElems[i].style.display = "";
