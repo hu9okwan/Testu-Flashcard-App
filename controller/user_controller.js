@@ -45,16 +45,16 @@ const registerUser = async (name, email, password) => {
     })
 
     if (userResult === null) {
-        await prisma.user.create({
+        let user = await prisma.user.create({
             data: {
                 name: name,
                 email: email,
                 password: password
             }
         })
-        return true;
+        return user;
     }
-    return false;
+    return null;
 };
 
 

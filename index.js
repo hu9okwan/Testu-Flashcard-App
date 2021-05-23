@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const ejsLayouts = require("express-ejs-layouts");
 const session = require("express-session");
-
+const flash = require("connect-flash")
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -13,6 +13,8 @@ const authController = require("./controller/auth_controller");
 const passport = require("./middleware/passport");
 const { ensureAuthenticated, forwardAuthenticated } = require("./middleware/checkAuth")
 app.use(express.urlencoded({ extended: true }));
+
+let port = process.env.PORT || 4200
 
 // use this to test POSTing stuff to server with insomnia
 // app.use(express.json())
@@ -35,8 +37,7 @@ app.use(passport.session());
 app.use(ejsLayouts);
 app.set("view engine", "ejs");
 
-
-
+app.use(flash());
 
 
 // maybe convert to router when theres time
@@ -49,6 +50,8 @@ app.get("/logout", authController.logout)
 app.get("/register", forwardAuthenticated, authController.register);
 app.post("/register", authController.registerSubmit);
 
+
+app.get("/verify", authController.verify)
 
 
 // all flashcard sets route
@@ -76,7 +79,7 @@ app.post("/flashcards/delete/:id", ensureAuthenticated, flashcardsController.del
 
 
 
-app.listen(4200, function() {
+app.listen(port, function() {
     console.log(
         "Server running. Visit: http://localhost:4200/ in your browser"
     );
