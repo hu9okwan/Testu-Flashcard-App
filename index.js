@@ -17,7 +17,11 @@ app.use(express.urlencoded({ extended: true }));
 let port = process.env.PORT || 4200
 
 // use this to test POSTing stuff to server with insomnia
+<<<<<<< HEAD
 app.use(express.json())
+=======
+// app.use(express.json())
+>>>>>>> 38675d47916e05074bd99fa03fd19c6bc519e738
 
 app.use(
     session({
@@ -79,5 +83,13 @@ app.post("/flashcards/delete/:id", ensureAuthenticated, flashcardsController.del
 
 
 
+<<<<<<< HEAD
 module.exports.app = app;
 module.exports.port = port
+=======
+app.listen(port, function() {
+    console.log(
+        "Server running. Visit: http://localhost:4200/ in your browser"
+    );
+});
+>>>>>>> 38675d47916e05074bd99fa03fd19c6bc519e738
