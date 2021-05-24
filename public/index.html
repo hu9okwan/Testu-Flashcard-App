@@ -1,0 +1,92 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="/imgs/logo.svg">
+    <title>Testu</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" integrity="sha512-QKC1UZ/ZHNgFzVKSAhV5v5j73eeL9EEN289eKAEFaAjgAiobVAnVv/AGuPbXsKl1dNoel3kNr6PYnSiTzVVBCw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <style>
+      body {
+          background-image: url("/imgs/bg2.png");
+          background-repeat: no-repeat;
+          background-size: cover;
+          height: 95%;
+          font-family: 'Montserrat', sans-serif;
+      }
+      .flip-card-front-home, .flip-card-back-home {
+          background-image: url("/imgs/Flashcard.jpg");
+          background-repeat: no-repeat;
+          background-size: 730px 360px;
+      }
+      h1, h2 {
+        font-family: "Indie Flower", Arial;
+      }
+      h1 {
+          font-size: 400%;
+      }
+
+  </style>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-light static-top">
+        <a class="navbar-brand ml-3" href="/" style="font-weight: bold;">
+            <img src="/imgs/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+            <!-- Testu -->
+        </a>
+    </nav>
+
+    <div class="flip-card-home-container">
+        <h1 class="mb-n5" style="width: 100%; font-size: 1000%; text-shadow: 2px 3px 5px rgba(0,0,0,0.5);">Testu</h1>
+        <div class="flip-card-home">
+            <div class="flip-card-inner-home" id="flip-this">
+                <div class="flip-card-front-home">
+                    <h1>Let's Testu!</h1>
+                        <div class="buttons-flex">
+                            <button type="button" class="lined login-button hover-dark pl-3 pr-3" onclick="flipCard(this)">Login</button>
+                            <button type="button" class="ml-3 lined btn-dark signup-button" onclick="location.href='/register'">Register</button>
+                        </div>
+    
+                </div>
+                <div class="flip-card-back-home">
+                    <h2 class="text-center mt-4">Login</h2>
+                    <form action="/login" class="pt-4 pb-5" method="POST">
+                        <div class="form-group mx-auto" style="width: 70%;">
+                            <input type="email" class="login-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+                            <label for="exampleInputEmail1" class="pull-left label-font">Email address</label>
+                        </div>
+                        <div class="form-group mx-auto" style="width: 70%">
+                            <input type="password" class="login-field" id="exampleInputPassword1" placeholder="Enter password" name="password" required>
+                            <label for="exampleInputPassword1" class="pull-left label-font ">Password</label>
+                        </div>
+                        <div class="pt-5">
+                            <button type="submit" class="submit-button hover-dark lined">Submit</button>
+                            <button type="button" class="lined btn-dark ml-3" onclick="flipCard(this)">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </body>
+</html>
+<script>
+    function flipCard(thisElem) {
+        let flashcard = document.getElementById("flip-this")
+        flashcard.classList.toggle("flip-card-horizontal")
+    }
+</script>

@@ -1,0 +1,478 @@
+
+<div class="container">
+    <header>
+    <h1 class="page-header pt-4">
+
+        <%= flashcardSet.title %>
+
+    </h1>
+
+    <div class="text-center pb-4">
+    <% if (flashcardSet.tags !== "") { %>
+        <% if (flashcardSet.tags.includes(",")) { %>
+            <% let tagsList = flashcardSet.tags.split(",") %>
+            <% for (let tag of tagsList) { %>
+                <span class="badge badge-dark"><%= tag %></span>
+            <% } %>
+        <% } else { %>
+            <span class="badge badge-dark"><%= flashcardSet.tags %></span>
+        <% } %>
+    <% } %>
+    </div>
+    <p class="text-center"><%= flashcardSet.description %></p>
+    <% if (locals.userId !== flashcardSet.userId) { %>
+        <p class="text-center">Created by: <%= flashcardSet.user.name %></p>
+    <% } %>
+
+    <% if (flashcardSet.private) { %>
+        <img class="mx-auto d-block mb-4" src="/imgs/private.svg" height="30px" width="30px" alt="Private Icon">
+    <% } %>
+
+    </header>
+       
+    
+    <button type="button" class="mode-button btn underline-bottom" onclick="changeToStandard(); changeUnderline(this);">
+        <img src="/imgs/list.svg" height="30px" width="30px" alt="List Icon"> 
+        <!-- <strong>List</strong> -->
+    </button>
+    <button type="button" class="mode-button btn" onclick="changeToFlashcard(); changeUnderline(this);">
+        <img src="/imgs/flashcards.svg" height="30px" width="30px" alt="Flashcards Icon"> 
+        <!-- <strong>Flashcards</strong> -->
+    </button>
+    <button type="button" class="mode-button btn" onclick="changeToShuffle(); changeUnderline(this);">
+        <img src="/imgs/testu2.svg" height="30px" width="30px" alt="Test Icon"> 
+    </button>
+    
+
+
+
+
+    <% if (locals.userId === flashcardSet.userId) { %>
+    <button type="submit" class="pull-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'">
+    <% } else { %>
+        <button type="submit" class="pull-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'" disabled>
+    <% } %>
+        <img src="/imgs/trash.svg" height="30px" width="30px" alt="Trash Icon">
+        <!-- <strong>Delete</strong> -->
+    </button>
+    
+    <!-- Modal that displays when delete button is pressed -->
+    <div id="deleteModal" class="modal" style="background-color: rgba(0, 0, 0, 0.75);">
+        <form id="deleteForm" class="modal-content" method="POST" action=<%="/flashcards/delete/" + flashcardSet.setId %>>
+                
+            <div class="shredded-paper" id="delete-shred">
+                <div class="content" id="flashcard-title">
+                    <div class="alert">
+                        Are you sure you want to delete this flashcard set?
+                    </div>
+                </div>
+                <button type="button" class="shred-me lined">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <% if (locals.userId === flashcardSet.userId) { %>
+    <button type="button" class="pull-right btn edit-button" onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
+    <% } else { %>
+        <button type="button" class="pull-right btn edit-button" disabled onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
+    <% } %>
+        <img src="/imgs/edit2.svg" height="30px" width="30px" alt="Edit Icon">
+        <!-- <strong>Edit</strong> -->
+        </button>
+
+
+
+    <button type="submit" class="pull-right btn share-button mr-1" onclick="document.getElementById('shareModal').style.display='block'">
+        <img src="/imgs/share.svg" height="30px" width="30px" alt="Share Icon">
+    </button>
+
+
+    <!-- Modal that displays when share button is pressed -->
+    <div id="shareModal" class="modal" style="background-color: rgba(0, 0, 0, 0.75);">
+        <div class="share-modal-content">
+            <div class="share-modal-container">
+                <h2 class="mt-3">Share</h2>
+
+                <div class="share-link-row"> 
+                    <input class="col-8" type="url" readonly placeholder="" id="copy-link" style="height: 40px;"> 
+                    <button id="copyBtn" onclick="copyLink()">Copy</button> 
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+    <hr>
+
+
+
+    <div id="standard-mode">
+        <% for (const flashcard of allFlashcards) { %>
+            <div class="flashcard-box">
+                <dt class="flashcard-term"><%= flashcard.term %></dt>
+                <dd class="flashcard-def"><%= flashcard.definition %></dd>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="flashcards-container" id="flashcard-mode" style="display: none;">
+
+        <% for (const flashcard of allFlashcards) { %>
+        <div class="flip-card">
+            <div class="flip-card-inner reset-cards" onclick="flipCard(this)">
+            <div class="flip-card-front"><span class="flashcard-content"><%= flashcard.term %></span></div>
+            <div class="flip-card-back"><span class="flashcard-content"><%= flashcard.definition %></span></div>
+            </div>
+        </div>
+        <% } %>
+
+        <div id="reset">
+            <button type="button" class="btn" id="reset-btn" onclick="resetCards()">
+                <img src="/imgs/reset1.svg" id="reset-img" height="30px" width="30px" alt="Reset Icon">
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="flashcards-container" id="shuffle-mode" style="display: none;">
+
+        <div class="progress progress-sm break">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" ></div>
+        </div>
+
+        <button type="button" id="prev-card" class="btn" onclick="displayPrevCard()" disabled>
+            <img src="/imgs/right_arrow.svg" style="transform: scaleX(-1);" height="80px" width="80px" alt="Left Arrow">
+        </button>
+        <div class="flip-card-shuffle">
+            <div class="flip-card-inner" id="begin-test-card" onclick="beginTestu(this)">
+                <div class="flip-card-front">
+                    <p id="term-shuffle">Click Here to Start</p>
+                </div>
+                <div class="flip-card-back">
+                    <p id="def-shuffle"></p>
+                </div>
+            </div>
+        </div>
+        <button type="button" id="next-card" class="btn" onclick="displayNextCard()" disabled>
+            <img src="/imgs/right_arrow.svg" height="80px" width="80px" alt="Right Arrow">
+        </button>
+
+        <p class="break" id="progress-num" style="font-size: initial;"></p>
+
+
+    </div>
+
+
+</div>
+<script src="/function.js"></script>
+<script>
+    function flipCard(thisElem) {
+        thisElem.classList.toggle("flip-card-horizontal")
+    }
+
+    function changeToStandard() {
+        let standardModeElem = document.getElementById("standard-mode")
+        let flashcardModeElem = document.getElementById("flashcard-mode")
+        let shuffleModeElem = document.getElementById("shuffle-mode")
+
+        if (standardModeElem.style.display === "none") {
+            standardModeElem.style.display = "block";
+            flashcardModeElem.style.display = "none";
+            shuffleModeElem.style.display = "none";
+        } 
+    }
+
+    function changeToFlashcard() {
+        let standardModeElem = document.getElementById("standard-mode")
+        let flashcardModeElem = document.getElementById("flashcard-mode")
+        let shuffleModeElem = document.getElementById("shuffle-mode")
+
+        if (flashcardModeElem.style.display === "none") {
+            flashcardModeElem.style.display = "flex";
+            standardModeElem.style.display = "none";
+            shuffleModeElem.style.display = "none";
+        } 
+    }
+
+    function changeToShuffle() {
+        let standardModeElem = document.getElementById("standard-mode")
+        let flashcardModeElem = document.getElementById("flashcard-mode")
+        let shuffleModeElem = document.getElementById("shuffle-mode")
+
+        if (shuffleModeElem.style.display === "none") {
+            flashcardModeElem.style.display = "none";
+            standardModeElem.style.display = "none";
+            shuffleModeElem.style.display = "flex";
+        } 
+    }
+
+    // change btn colour from blue to green when clicked
+    function changeButtonColour(thisElem) {
+        allModeElems = document.getElementsByClassName("mode-button")
+        for (let modeElem of allModeElems) {
+            if (modeElem.classList.contains("btn-success")) {
+                modeElem.classList.remove("btn-success")
+                modeElem.classList.add("btn-primary")
+                
+            }
+        }
+        thisElem.classList.remove("btn-primary")
+        thisElem.classList.add("btn-success")
+    }
+
+    // underline the mode when selected
+    function changeUnderline(thisElem) {
+        allModeElems = document.getElementsByClassName("mode-button")
+        for (let modeElem of allModeElems) {
+            if (modeElem.classList.contains("underline-bottom")) {
+                modeElem.classList.toggle("underline-bottom")
+                
+            }
+        }
+        thisElem.classList.toggle("underline-bottom")
+    }
+
+
+
+    // Code from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+    function shuffle(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        while (0 !== currentIndex) {
+
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    }
+    
+    let orderedCards = <%- JSON.stringify(allFlashcards) %>;
+    let shuffledCards = shuffle(orderedCards)
+    
+    function beginTestu(thisElem) {
+        let beginTestElem = document.getElementById("begin-test-card")
+        beginTestElem.setAttribute("onclick", "flipCard(this);")
+        displayNextCard()
+        updateProgressNum()
+        updateProgressBar()
+
+        let nextCardBtnElem = document.getElementById("next-card")
+        if (shuffledCards.length > 1) {
+            nextCardBtnElem.disabled = false;
+        }
+    }
+    
+    
+    let currentIndex = -1
+    function displayNextCard() {
+
+        if (currentIndex <= shuffledCards.length - 1) {
+            if (currentIndex === -1) {
+            document.getElementById("prev-card").disabled = true;
+            } else {
+                document.getElementById("prev-card").disabled = false;
+                document.getElementById("next-card").disabled = false;
+            }
+
+            currentIndex += 1
+            let frontCardText = document.getElementById("term-shuffle")
+            let backCardText = document.getElementById("def-shuffle")
+
+            frontCardText.innerText = shuffledCards[currentIndex]["term"]
+            backCardText.innerText = shuffledCards[currentIndex]["definition"]
+
+        }
+        
+        if (currentIndex === shuffledCards.length - 1) {
+            document.getElementById("next-card").disabled = true;
+        }
+
+        updateProgressNum()
+        updateProgressBar()
+        changeBackToFront()
+    }
+
+    function displayPrevCard() {
+        if (currentIndex === -1) {
+            document.getElementById("prev-card").disabled = true;
+        } else {
+            document.getElementById("prev-card").disabled = false;
+            document.getElementById("next-card").disabled = false;
+        }
+
+        if (currentIndex >= 0) {
+            currentIndex -= 1
+            let frontCardText = document.getElementById("term-shuffle")
+            let backCardText = document.getElementById("def-shuffle")
+
+            frontCardText.innerText = shuffledCards[currentIndex]["term"]
+            backCardText.innerText = shuffledCards[currentIndex]["definition"]
+        }
+
+        if (currentIndex === 0) {
+            document.getElementById("prev-card").disabled = true;
+        }
+
+        updateProgressNum()
+        updateProgressBar()
+        changeBackToFront()
+    }
+
+    function updateProgressNum() {
+        let progressElem = document.getElementById("progress-num")
+        progressElem.innerText = `${currentIndex + 1}/${shuffledCards.length}`
+    }
+
+    function updateProgressBar() {
+        let progressBar = document.getElementsByClassName("progress-bar")
+        let percentage = ((currentIndex +1) / shuffledCards.length) * 100
+
+        progressBar[0].setAttribute("style", `width: ${percentage}%`)
+    }
+
+
+    // function to sleep using Promises
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function changeBackToFront() {
+        let flashcard = document.getElementById("begin-test-card")
+        if (flashcard.classList.contains("flip-card-horizontal")) {
+
+            let backCardText = document.getElementById("def-shuffle")
+            backCardText.style.visibility = "hidden";
+            flipCard(flashcard);
+
+            // sleep .5s before or else answer will be shown while flipping back to front
+            await sleep(500);
+            backCardText.style.visibility = "initial";
+
+        }
+    }
+
+
+
+
+    // function resetCards() {
+    //     let allFlashcards = document.getElementsByClassName("reset-cards")
+    //     for (let card of allFlashcards) {
+    //         if (card.classList.contains("flip-card-horizontal")) {
+    //             card.classList.remove("flip-card-horizontal")
+    //         }
+    //     }
+    // }
+
+
+
+    // When the user clicks anywhere outside of the modal, close it
+    let deleteModal = document.getElementById('deleteModal');
+    let shareModal = document.getElementById('shareModal');
+    
+    let timeout
+
+    window.onclick = function(event) {
+        if (event.target == deleteModal) {
+            deleteModal.style.display = "none";
+
+            // stops the execution of delete submission  
+            clearTimeout(timeout)
+            document.getElementById("flashcard-title").style.display = "initial";
+            document.querySelector('.shredded-paper').classList.remove('animate');
+
+        } else if (event.target == shareModal) {
+            shareModal.style.display = "none";
+
+            let copyBtn = document.getElementById("copyBtn")
+            copyBtn.innerText = "Copy"
+            copyBtn.classList.remove("black-btn")
+        }
+    }
+
+
+
+
+    
+    // https://levelup.gitconnected.com/think-you-know-css-not-until-you-create-a-css-shredder-3cbf50487c9d
+    document.addEventListener('DOMContentLoaded', function(e) {
+        const mainEl = '.shredded-paper';
+        const repeatUnit = '.shredded-paper .content';
+        const repeatNum = 10;
+        
+        for(let i = 0; i < repeatNum; ++i) {
+            let newEl = document.createElement('div');
+            newEl.innerHTML = document.querySelector(repeatUnit).innerHTML;
+            newEl.classList.add(`item-${i+1}`);
+            newEl.setAttribute('style', `clip-path: inset(0px ${(repeatNum-1-i)*40}px 0 ${i*40}px);`);
+            document.querySelector(mainEl).appendChild(newEl);
+        
+        }
+
+        document.querySelector('.shred-me').addEventListener('click', function(e) {
+            document.getElementById("flashcard-title").style.display = "none";
+            document.querySelector('.shredded-paper').classList.add('animate');
+            
+
+            // sets a 4 second timer before submitting delet form so that shredder animation can fully animate
+            timeout = setTimeout(function() {
+                document.getElementById("deleteForm").submit();
+            }, 3800);
+            
+            
+        });
+    
+    });
+
+
+    // add eventlistner to reset image to rotate when clicked
+    $("#reset-btn").on("click", function(){       
+    $("#reset-img").addClass("rotateImg").one('webkitAnimationEnd mozAnimationEnd oAnimationEnd msAnimationEnd animationend', function () {
+        $("#reset-img").removeClass("rotateImg"); 
+    });
+});
+
+
+
+
+
+
+
+function copyLink() {
+    let copyText = document.getElementById("copy-link");
+    copyText.select();
+    document.execCommand("copy");
+    
+    let copyBtn = document.getElementById("copyBtn")
+    copyBtn.innerText = "Copied"
+    copyBtn.classList.add("black-btn")
+
+}
+
+
+let linkInput = document.getElementById("copy-link");
+linkInput.value = location.href;
+
+
+
+
+
+
+</script>

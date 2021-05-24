@@ -1,0 +1,1190 @@
+/* .deleteForm {
+    display: inline-block
+} */
+
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+header.masthead {
+    position: relative;
+    background-color: #fff;
+    background: url("https://image.freepik.com/free-vector/reading-list-concept-illustration_114360-1005.jpg") no-repeat right center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.2;
+}
+
+header.masthead h1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    header.masthead {
+        padding-top: 12rem;
+        padding-bottom: 12rem;
+    }
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+.showcase .showcase-text {
+    padding: 3rem;
+}
+
+.showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .showcase .showcase-text {
+        padding: 7rem;
+    }
+}
+
+.features-icons {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.features-icons .features-icons-item {
+    max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+    font-size: 5rem;
+}
+
+.testimonials {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.testimonials .testimonial-item {
+    max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+    max-width: 12rem;
+    box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("./img/bg-masthead.jpg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.form-signin .checkbox {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+
+
+.flexbox {
+    display: flex
+}
+
+.list-group {
+    flex-grow: 1;
+}
+
+
+
+
+
+.navbar-nav {
+    float: right;
+}
+
+/* .navbar {
+    box-shadow: 0px 8px 8px -6px hsla(0,0%,0%,.2);
+} */
+
+
+
+
+/* Code from https://www.w3schools.com/howto/howto_css_flip_card.asp */
+.flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    /* default was width 300px, height 200px */
+    /* border: 1px solid #f1f1f1; */
+    perspective: 1000px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.flip-card-shuffle {
+    background-color: transparent;
+    width: 650px;
+    height: 400px;
+    perspective: 1000px;
+    display: inline-block;
+    margin: 10px;
+}
+
+
+  
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: 25px;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+    /* If you want hover to flip instead, uncomment next line and the css block after this one*/
+    /* transform: rotateY(180deg);  */
+    cursor: pointer;
+}
+
+.flip-card-shuffle {
+    cursor: pointer;
+}
+
+.flip-card-horizontal {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    background-color: white;
+    color: black;
+    /* border-style: solid; */
+    border-width: 1px;
+}
+
+/* Style the back side */
+.flip-card-back {
+    background-color: dodgerblue;
+    /* color: white; */
+    transform: rotateY(180deg);
+}
+
+
+.flashcards-container {
+    /* display: flex; */
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+.flip-card-front, .flip-card-back {
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+
+
+    /* overflow: auto;  */
+    white-space: pre-wrap;
+
+    /* display flashcard image for background */
+    background-image: url("/imgs/Flashcard.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;  
+    box-shadow:2px 8px 4px -6px;
+
+    transition:all .5s ease;
+}
+
+.flip-card-front:hover, .flip-card-back:hover {
+    box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+}
+
+
+.flashcard-content, #term-shuffle, #def-shuffle {
+    /* height: 80%; */
+    margin-top: 20px;
+    overflow: auto;
+    /* box-sizing: content-box; */
+    /* overflow:   scroll; */
+    
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.flashcard-term, .flashcard-def {
+    padding-left: 20px;
+    white-space: pre-wrap;
+
+    overflow-wrap: break-word;
+    
+}
+
+
+.flashcard-term {
+    border-right: 1px dotted lightgray;
+    width: 40%;
+}
+
+.flashcard-def {
+    width: 60%;
+}
+
+
+
+
+
+
+
+.flashcard-box {
+    display: flex;
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+}
+
+.flip-card-home-container {
+    display: flex;
+    width: 100%;
+    height: 60%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.flip-card-home {
+    background-color: transparent;
+    width: 50%;
+    height: 25%;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.login-button, .signup-button {
+    display: inline-block;
+    margin: 2px;
+}
+
+.flip-card-inner-home {
+    /* position: relative; */
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+
+    max-width: 730px;
+
+    min-width: 420px;
+    height: 350px;
+}
+
+.buttons-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.flip-card-front-home, .flip-card-back-home {
+    box-shadow:2px 8px 4px -6px;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+
+    transition:all .5s ease;
+    
+
+}
+
+.flip-card-front-home:hover, .flip-card-back-home:hover{
+    box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+}
+
+.flip-card-front-home {
+
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 10px;
+}
+
+.flip-card-back-home {
+    transform: rotateY(180deg);
+
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+
+
+
+
+
+
+/* Create page */
+
+.flashcards-label {
+    margin: 0;
+}
+
+.create-submit-button, .cancel-button {
+    float: right;
+    margin-left: 5px;
+}
+
+.add-flashcard-button {
+    width: 100%;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text);
+    color: grey
+}
+
+.term-textbox, .def-textbox {
+    width: 45%;
+    min-height: 40px;
+    overflow: hidden;
+    resize: none;
+}
+
+.del-flashcard-button {
+    align-self: flex-start; 
+}
+
+.del-flashcard-button:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.flashcard-container {
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    
+}
+
+.break {
+    flex-basis: 100%;
+    /* height: 0; */
+    margin-bottom: 20px;
+}
+
+#progress-num {
+    text-align: center;
+    color: grey
+}
+
+.progress-sm {
+    height: 0.2rem!important;
+  }
+
+#prev-card, #next-card {
+    /* align-self: center; */
+}
+
+.bootstrap-tagsinput{
+    border: none !important;
+    box-shadow: none !important;
+    width: 45%;
+    display: inline-block;
+    border-left: 1px solid lightgray !important;
+    border-radius: 0 !important;
+
+
+}
+
+.label-info{
+    background-color: #343a40;
+
+}
+
+.label {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,
+    border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+
+
+header {
+    background-color: #f8f9fa;
+    border-radius: 25px;
+    border: solid 1px lightgray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+h1, h2, h3 {
+    font-family: 'Indie Flower', sans-serif;
+    text-align: center;
+    font-size: 300%;
+}
+
+h1 {
+    margin-top: 20px;
+    /* margin-bottom: 20px; */
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    /* font-size: large; */
+}
+
+.flashcard-title-index {
+    font-size: x-large;
+}
+
+#shuffle-mode, #flashcard-mode {
+    font-family: 'Dekko', cursive;
+    font-size: xx-large;
+}
+
+#flashcard-mode {
+    font-size: large;
+}
+
+#reset {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 50px;
+}
+
+
+
+.underline-bottom {
+    border-bottom: 5px solid #343a40;
+}
+
+.mode-button:hover, #prev-card:hover, #next-card:hover, #reset-btn:hover, .share-button:hover {
+    border-bottom: 5px solid #343a40;
+}
+.edit-button:hover {
+    border-bottom: 5px solid #ffc107;
+}
+
+.delete-button:hover {
+    border-bottom: 5px solid #d9534f;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
+
+.hover-dark:hover, .black-btn{
+    background-color: #343a40;
+    color: white;
+}
+
+
+
+button {
+    align-self:center;
+    background:transparent;
+    /* padding:1rem 1rem; */
+    /* margin:0 1rem; */
+    transition:all .5s ease;
+    color:#41403E;
+    font-size:1.5rem;
+    letter-spacing:1px;
+    outline:none;
+    /* box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2); */
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    /*
+    Above is shorthand for:
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+    border-bottom-right-radius: 225px 15px;
+    border-bottom-left-radius:15px 255px;
+    */
+    font-family: "Indie Flower", arial;
+    
+}
+.lined.thick {
+    border:solid 3px #41403E;
+}
+.lined.thin {
+    border:solid 2px #41403E;
+}
+
+
+button:focus, button:active:hover {
+    outline: none;
+}
+
+
+
+
+
+
+.line-vertical {
+    width: 1px;
+    height: 20px;
+    float: left;
+    background-color: lightgray;
+    margin: 10px;
+  }
+
+
+
+
+
+.rotateImg {
+    -webkit-animation:spin .5s ease-in-out;
+    -moz-animation:spin .5s ease-in-out;
+    animation:spin .5s ease-in-out;
+}
+@-moz-keyframes spin {
+    100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); }
+}
+@-webkit-keyframes spin {
+    100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); }
+}
+@keyframes spin { 
+    100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } 
+}
+
+
+
+
+
+
+
+/* MODAL FOR SHARE BUTTON */
+
+/* Add padding and center-align text to the container */
+.share-container {
+    padding: 16px;
+    text-align: center;
+}
+
+/* The Modal (background) */
+.share-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    /* background-color: #474e5d; */
+    padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.share-modal-content {
+    background-color: #fefefe;
+    margin: 20% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    border-radius: 25px;
+    width: 40%; /* Could be more or less, depending on screen size */
+    height: 15%;
+}
+
+
+.share-link-row {
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+
+
+
+
+/* MODAL FOR DELETE POPUP */
+
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #343a40;
+  color: white;
+  margin-left: 10px;
+}
+
+/* Add a color to the delete button hover */
+.deletebtn:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.modal-container {
+    padding: 16px;
+    text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  /* background-color: #474e5d; */
+  /* padding-top: 50px; */
+
+}
+
+/* Modal Content/Box */
+.modal-content {
+    display: flex;
+  /* background-color: #fefefe; */
+  /* 5% from the top, 15% from the bottom and centered */
+  /* margin: 15% auto 15% auto;  */
+
+    /* margin-top: 20%; */
+  
+}
+
+
+
+
+/* shredder css */
+/* https://levelup.gitconnected.com/think-you-know-css-not-until-you-create-a-css-shredder-3cbf50487c9d */
+
+.shredded-paper.animate { animation: shredShake 0.12s 26 0.3s; }
+.shredded-paper.animate > div[class^='item-']:nth-of-type(2n) { animation: Animation1 3.6s 1 forwards 1s, shredGo 3.6s 1 forwards; }
+.shredded-paper.animate > div[class^='item-']:nth-of-type(2n-1) { animation: Animation2 3.6s 1 forwards 1s, shredGo 3.6s 1 forwards; }
+/* .shredded-paper.animate .content { animation: cover 3.6s 1 forwards; } */
+
+@keyframes shredGo {
+	/* 10% { top: 20px; }
+	12% { top: 15px; }
+	30% { top: 150px; }
+	32% { top: 145px; }
+	60% { top: 320px; } */
+	62% { top: 335px; }
+	68% { top: 380px; }
+	100% { top: 400px; }
+}
+
+@keyframes shredShake {
+	50% { top: 0; } 
+	100% { top: 4px; }
+}
+
+
+/* Rotate one way */
+@keyframes Animation1 {
+	20% { transform: scaleY(1.1) rotateX(5deg); }
+	50% { transform: scaleY(1.1) rotateX(-5deg); top: 0; }
+	90% { transform: scaleY(1.1) rotateX(10deg); top: 400px; }
+	100% { transform: scaleY(1.1) rotateX(10deg); top: 1200px; }
+}
+
+/* Rotate the other */
+@keyframes Animation2 {
+	20% { transform: scaleY(1.1) rotateX(-5deg); }
+	50% { transform: scaleY(1.1) rotateX(-5deg); top: 0; }
+	90% { transform: scaleY(1.1) rotateX(-10deg); top: 400px; }
+	100% { transform: scaleY(1.1) rotateX(-10deg); top: 1200px; }
+}
+
+.shredded-paper {
+
+	width: 400px;
+	height: 240px;
+	position: absolute;
+	perspective: 1000px;
+    align-self: center;
+    top: 0;
+    margin-top: 200px;
+	z-index: 5;
+
+}
+
+.shredded-paper > div {
+    font-size: 1.25rem;
+    padding: 0.95rem 1.5rem;
+    text-align: right;
+}
+
+.shredded-paper > div[class^='item-'] {
+	height: 100%;
+	width: 100%;
+	/* box-shadow: inset 0 0 0 5px #d6ebf6; */
+	box-sizing: border-box;
+	position: absolute;
+	background: url("/imgs/Flashcard.jpg");
+	background-size: 100% auto;
+	transform-style: preserve-3d;
+	z-index: 99;
+	top: 0;
+	font-family: Lato, sans-serif;
+
+    border-radius: 20px;
+}
+
+.shredded-paper > .content {
+	letter-spacing: 1.5px;
+	background: url("/imgs/Flashcard.jpg");
+	height: 100%;
+	background-size: 100%;
+	box-sizing: border-box;
+	/* box-shadow: inset 0 0 0 5px #d6ebf6; */
+	font-family: Lato, sans-serif;
+	width: 100%;
+	padding: 0.95rem 1.5rem;
+	position: absolute;
+	font-size: 1.25rem;
+	transform: translateZ(180px) scale(0.82);
+	top: 1px;
+	z-index: 9999;
+	text-align: right;
+    
+    border-radius: 20px;
+}
+
+.shredded-paper > div .alert {
+	font-family: "Indie Flower", sans-serif;
+/* 	position: absolute; */
+  text-align: center;
+/* 	top: 1rem;
+	right: 1rem; */
+/* 	font-size: rem;
+	
+	line-height: 1.25rem; */
+  letter-spacing: 0.5px;
+  font-size: xx-large;
+  padding-top: 30px;
+}
+
+.shredder-holder {
+	position: relative;
+	top: 350px;
+	left: 500px;
+	width: 450px;
+}
+
+
+.shredded-paper > .shred-me {
+	font-weight: bold;
+	/* background: linear-gradient(#092e4a, #031727); */
+    background-color: red;
+	color: #FFF;
+	cursor: pointer;
+	transition: all 0.1s ease-out;
+	width: calc(100% + 70px);
+	display: inline-block;
+	text-align: center;
+	box-sizing: border-box;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+	padding: 1rem 0;
+	font-size: 1.5rem;
+	/* border-radius: 8px; */
+	left: -35px;
+	z-index: 9999;
+	position: absolute;
+	top: 266px;
+    
+}
+
+.shred-me:hover {
+	/* background: linear-gradient(#0f4065, #072944); */
+	transform: scale(1.02);
+}
+
+.shred-me:active { box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); }
+
+
+
+
+
+
+/* SEARCH BAR */
+.search-focus {
+    background: url(/imgs/search.svg) no-repeat left;
+    border: none;
+    outline: none;
+    background-size: 16px;
+    background-position: 13px;
+    /* border-radius: 25px; */
+    width: 25px;
+    height: 25px;
+    padding: 19px;
+    transition: all .5s;
+    cursor: pointer;
+}
+.search-focus:focus{
+    width: 230px;
+    padding-left: 50px;
+    border-bottom: 1px solid #ccc;
+    cursor: text;
+}
+
+.search-click {
+    position: relative;
+    overflow: hidden;
+    height: 25px;
+
+}  
+.search-click input {
+    background: transparent;
+    border: none;
+    outline: none;
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    left: 0%;
+    padding: 10px;
+}
+
+
+#userInputFilter {
+    background: url("/imgs/filter.svg") no-repeat left;
+    background-size: 16px;
+    background-position: 13px;
+    /* border-radius: 25px; */
+    
+
+}
+
+#userInputFilter:focus {
+    width: 180px;
+}
+
+
+
+
+
+
+
+
+
+
+
+textarea {
+    min-height: 28px;
+    resize: none;
+}
+
+input, textarea {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: #343a40;
+    width: 100%;
+}
+
+
+input:focus {
+    border-color: #343a40
+}
+
+
+.selectize-control {
+    display: inline-block;
+    width: 45%;
+    
+}
+
+.selectize-input {
+    overflow: visible !important;
+    border: none !important;
+    /* border-right: 1px solid lightgray !important; */
+    border-radius: 0 !important;
+    padding-left: 0 !important;
+    box-shadow: none !important;
+}
+
+
+.label-under {
+    /* display: block; */
+    border-top: solid 2px #343a40;
+    padding-top: 8px;
+    width: 100%;
+    
+}
+
+.label-font {
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+    /* font-size: large; */
+    color: #343a40;
+    font-family: "Indie Flower";
+    font-size: large;
+    letter-spacing: 1.5px;
+}
+
+
+.select-private {
+    border-bottom: solid 2px #343a40 !important;
+
+    width: 22%;
+    
+}
+
+
+
+.login-field {
+    background: transparent;
+}
+
+
+
+
+/* makes autofill for input background transparent */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: black !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.filter-icon {
+    position: relative;
+    background: url("/imgs/search.svg") no-repeat
+}
+
+
+.filter-input-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+/* #userInputFilter {
+    border: none;
+    border-radius: 0;
+    border-bottom: lightgray 1px solid;
+    width: 15%;
+    margin-left: auto;
+    box-shadow: none;
+    
+} */
+
+
+
+
+
+#flashcards-set-ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+div.content {
+    width: 300px;
+}
+
+li.col {
+    list-style-type: none;
+    /* padding-right: 0; */
+}
+
+*, *:before, *:after {
+	 box-sizing: border-box;
+}
+a.card {
+	 text-decoration: none;
+	 color: black;
+     width: 100%;
+     
+}
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+ .col {
+	 padding: 1rem;
+     flex-grow: 0;
+}
+
+ .card {
+	 display: block;
+	 text-align: center;
+	 color: black;
+}
+ .card .content {
+	 padding: 4rem 1rem;
+}
+ .card .title {
+	 font-size: 1.25rem;
+	 background-color: gray;
+	 border-radius: 3px;
+	 padding: 0.5rem;
+}
+
+ .card-3 .content {
+	 background-color: rgba(255, 255, 255, 1) !important;
+	 border-radius: 5px;
+     border: 1px lightgray solid;
+     
+}
+ .card-3:before, .card-3:after {
+	 border-radius: 5px;
+
+}
+ .card-3:before {
+	 background-color: whitesmoke !important;
+}
+ .card-3 .title, .card-3:after {
+	 background-color: Gainsboro !important;
+}
+
+ [class*='stacked--'] {
+	 position: relative;
+	 transition: transform 0.3s ease-in-out;
+	 will-change: transform;
+}
+ [class*='stacked--']:before, [class*='stacked--']:after {
+	 content: '';
+	 position: absolute;
+	 top: 0;
+	 right: 0;
+	 bottom: 0;
+	 left: 0;
+	 background-color: currentColor;
+	 transition: transform 0.3s ease-in-out;
+	 will-change: transform;
+}
+ [class*='stacked--']:before {
+	 z-index: -1;
+}
+ [class*='stacked--']:after {
+	 z-index: -2;
+}
+ .stacked--up:before, .stacked--up:after {
+	 transform-origin: center bottom;
+}
+ .stacked--up:hover {
+	 transform: translate(0, -5px);
+}
+ .stacked--up:hover:before {
+	 transform: translate(0, 5px) scale(0.95);
+}
+ .stacked--up:hover:after {
+	 transform: translate(0, 10px) scale(0.9);
+}
+
+.stacked--fan-right {
+    transform-origin: center bottom;
+  }
+  .stacked--fan-right:before, .stacked--fan-right:after {
+    transform-origin: 50% 100%;
+  }
+  .stacked--fan-right:hover {
+    transform: translate(2.5px, 0) rotate(2.5deg);
+  }
+  .stacked--fan-right:hover:before {
+    transform: translate(-2.5px, 0) rotate(-2.5deg);
+  }
+  .stacked--fan-right:hover:after {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }

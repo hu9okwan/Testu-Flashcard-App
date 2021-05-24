@@ -1,0 +1,34 @@
+<% if (message.length > 0) { %>
+    <% if (message[0].failure) { %>
+<div class="alert alert-danger alert-dismissible text-center" role="alert">
+    <%= message[0].failure %>
+    <% } else if (message[0].success) { %>
+        <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <%= message[0].success %>
+        <% } %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+<div class="container">
+    <form action="/login" method="POST">
+        <header class="mb-5">
+            <h3 class="text-center pt-4 pb-4">
+                <img src="/imgs/login.svg" height="50px" width="50px" alt="Login Icon">
+                Login
+            </h3>
+        </header>
+        <div class="mx-auto" style="width: 50%;">
+            <div class="form-group">
+                <input type="email" class="" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+                <label for="exampleInputEmail1" class="label-font">Email address</label>
+            </div>
+            <div class="form-group">
+                <input type="password" class="" id="exampleInputPassword1" placeholder="Password" name="password">
+                <label for="exampleInputPassword1" class="label-font">Password</label>
+            </div>
+            <button type="submit" class="lined hover-dark float-right">Submit</button>
+        </div>
+    </form>
+</div>
