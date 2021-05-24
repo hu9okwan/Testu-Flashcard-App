@@ -292,26 +292,6 @@ describe('Test register', () => {
                 password: cheryl.password
             })
             .expect("Location", "/login")
-        const user = await prisma.user.findUnique({
-            where: {
-                email: cheryl.email
-            },
-            include:
-            {
-                flashcardsset: true,
-                hash: true
-            }
-        })
-        await prisma.verifyHash.delete({
-            where: {
-                hash: user.hash.hash
-            }
-        })
-        await prisma.user.delete({
-            where: {
-                id: user.id
-            }
-        })
     });
     it('register with invalid email', async () => {
         const req = httpMocks.createRequest({
@@ -329,3 +309,75 @@ describe('Test register', () => {
     })
 })
 
+describe("Test verfiy email", () => {
+    it('Cannot login before verify email', async () => {
+        await request(app)
+          .post("/login")
+          .send({
+            email: cheryl.email,
+            password: cheryl.password
+          })
+          .set('Accept', 'application/json')
+          .expect("Location", "/login")
+    });
+    it('email verification', async () => {
+        const new_user = await prisma.user.findUnique({
+            where: {
+                email: cheryl.email
+            },
+            include:
+            {
+                flashcardsset: true,
+                hash: true
+            }
+        })
+        const req = httpMocks.createRequest({
+            query:{
+                hash: new_user.hash.hash
+            },
+            flash: (a,b)=>{
+                let title = a
+                let message = b
+            }
+        })
+        await authController.verify(req,res)
+        const verify_user = await prisma.user.findUnique({
+            where: {
+                email: cheryl.email
+            },
+            include:
+            {
+                flashcardsset: true,
+                hash: true
+            }
+        })
+        expect(verify_user.active).toBe(true)
+    });
+    it("Successfully log in after verifying the email", async() => {
+        await request(app)
+          .post("/login")
+          .send({
+            email: cheryl.email,
+            password: cheryl.password
+          })
+          .set('Accept', 'application/json')
+          .expect("Location", "/flashcards")
+    });
+    it("Make sure no flashcard is assigned to new user", async() => {
+        const user = await prisma.user.findUnique({
+            where: {
+                email: cheryl.email
+            },
+            include:
+            {
+                flashcardsset: true
+            }
+        })
+        expect(user.flashcardsset).toHaveLength(0);
+        await prisma.user.delete({
+            where: {
+                id: user.id
+            }
+        })
+    })
+})
