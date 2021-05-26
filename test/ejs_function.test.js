@@ -1,12 +1,18 @@
 const fs = require("fs")
-window.document.body.innerHTML = fs.readFileSync("./test/example/index.html")
 const { resetCards, } = require("../public/function")
 
-describe('Test ejs function', () => {
+beforeAll(async (done) => {
+    window.document.body.innerHTML= fs.readFileSync("./test/example/index.html");
+    done();
+});
+
+describe('Test reset function', () => {
     //createa another html to test the function
-    it('test reset function', () => {
-        resetCards()
+    it('Make sure all flahcards remove a specific class', () => {
+        resetCards();
+        const flashcard = document.getElementsByClassName('flip-card-horizontal');
         expect(window.document.body.innerHTML).toEqual(
-            expect.not.stringContaining('flip-card-horizontal'))
+            expect.not.stringContaining('flip-card-horizontal'));
+        expect(flashcard).toHaveLength(0);
     })
 })
