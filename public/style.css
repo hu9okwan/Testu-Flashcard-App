@@ -1,6 +1,3 @@
-/* .deleteForm {
-    display: inline-block
-} */
 
 body {
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -145,7 +142,9 @@ footer.footer {
     flex-grow: 1;
 }
 
-
+.list-group-item {
+    width: 100%;
+}
 
 
 
@@ -165,8 +164,6 @@ footer.footer {
     background-color: transparent;
     width: 300px;
     height: 200px;
-    /* default was width 300px, height 200px */
-    /* border: 1px solid #f1f1f1; */
     perspective: 1000px;
     display: inline-block;
     margin: 10px;
@@ -440,13 +437,11 @@ position: relative;
 .flashcard-container {
     display: flex;
     justify-content: space-between;
-    /* align-items: center; */
-    
+   
 }
 
 .break {
     flex-basis: 100%;
-    /* height: 0; */
     margin-bottom: 20px;
 }
 
@@ -572,22 +567,12 @@ body {
 button {
     align-self:center;
     background:transparent;
-    /* padding:1rem 1rem; */
-    /* margin:0 1rem; */
     transition:all .5s ease;
     color:#41403E;
     font-size:1.5rem;
     letter-spacing:1px;
     outline:none;
-    /* box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2); */
     border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-    /*
-    Above is shorthand for:
-    border-top-left-radius: 255px 15px;
-    border-top-right-radius: 15px 225px;
-    border-bottom-right-radius: 225px 15px;
-    border-bottom-left-radius:15px 255px;
-    */
     font-family: "Indie Flower", arial;
     
 }
@@ -679,7 +664,6 @@ button:focus, button:active:hover {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    /* background-color: #474e5d; */
     padding-top: 50px;
 }
 
@@ -699,9 +683,6 @@ button:focus, button:active:hover {
     justify-content: center;
     flex-wrap: wrap;
 }
-
-
-
 
 
 
@@ -739,20 +720,14 @@ button:focus, button:active:hover {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  /* background-color: #474e5d; */
-  /* padding-top: 50px; */
+
 
 }
 
 /* Modal Content/Box */
 .modal-content {
     display: flex;
-  /* background-color: #fefefe; */
-  /* 5% from the top, 15% from the bottom and centered */
-  /* margin: 15% auto 15% auto;  */
 
-    /* margin-top: 20%; */
-  
 }
 
 
@@ -1053,14 +1028,6 @@ input:-webkit-autofill:active  {
 
 
 
-
-
-
-
-
-
-
-
 .filter-icon {
     position: relative;
     background: url("/imgs/search.svg") no-repeat
@@ -1073,7 +1040,6 @@ input:-webkit-autofill:active  {
     margin-bottom: 10px;
     justify-content: space-between;
 }
-
 
 
 

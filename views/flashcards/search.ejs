@@ -14,7 +14,7 @@
         <ul class="list-group" id="flashcards-set-ul">
             <% if (flashcardsSets.length > 0) { %>
                 <% flashcardsSets.forEach(function (flashcardSet) { %>
-                    <li class="list-group-item" style="width: 100%;">
+                    <li class="list-group-item">
                         <strong class="flashcard-title-index"><%= flashcardSet.title %></strong>
 
                         <% if (flashcardSet.tags !== "") { %>
