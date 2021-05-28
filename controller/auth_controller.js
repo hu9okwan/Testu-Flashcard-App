@@ -85,7 +85,7 @@ let authController = {
                 subject: 'Verify your Testu account.',
                 html: `
                 <p>Welcome to Testu, ${name}!</p>
-                <p>Please visit this link to verify your email address: http://localhost:4200/verify?hash=${hashString}</p>`
+                <p>Please visit this link to verify your email address: https://bcit-testu.herokuapp.com/verify?hash=${hashString}</p>`
             };
     
             transporter.sendMail(mailOptions, function(error, info){

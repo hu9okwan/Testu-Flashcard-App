@@ -11,7 +11,7 @@ const localLogin = new LocalStrategy(
     return user
       ? done(null, user)
       : done(null, false, {
-          message: "Your login details are invalid. Please try again",
+          message: "Your login details are invalid. Please try again.",
         });
   }
 );
@@ -25,7 +25,7 @@ passport.deserializeUser(function (id, done) {
   if (user) {
     done(null, user);
   } else {
-    done({ message: "User not found" }, null);
+    done({ message: "User not found." }, null);
   }
 });
 
