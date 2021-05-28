@@ -3,8 +3,6 @@ const prisma = new PrismaClient()
 
 const getUserByEmailIdAndPassword = async (email, password) => {
   
-//   let user = userModel.findOne(email);
-
     let user = await prisma.user.findUnique({
         where: {email: email}
     });
@@ -14,11 +12,10 @@ const getUserByEmailIdAndPassword = async (email, password) => {
         }
     }
     return null;
-
 };
 
 const getUserById = async (id) => {
-//   let user = userModel.findById(id);
+    
   let user = await prisma.user.findUnique({
       where: {id: id}
   });
@@ -33,8 +30,6 @@ function isUserValid(user, password) {
 
   return user.password === password;
 }
-
-
 
 const registerUser = async (name, email, password) => {
 
@@ -56,7 +51,6 @@ const registerUser = async (name, email, password) => {
     }
     return null;
 };
-
 
 
 module.exports = {

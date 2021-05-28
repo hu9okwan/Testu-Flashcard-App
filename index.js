@@ -77,7 +77,5 @@ app.post("/flashcards/delete/:id", ensureAuthenticated, flashcardsController.del
 
 
 
-
-
 module.exports.app = app;
 module.exports.port = port

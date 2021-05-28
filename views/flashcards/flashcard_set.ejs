@@ -1,10 +1,8 @@
-
 <div class="container">
     <header>
+
     <h1 class="page-header pt-4">
-
         <%= flashcardSet.title %>
-
     </h1>
 
     <div class="text-center pb-4">
@@ -30,7 +28,6 @@
 
     </header>
        
-    
     <button type="button" class="mode-button btn underline-bottom" onclick="changeToStandard(); changeUnderline(this);">
         <img src="/imgs/list.svg" height="30px" width="30px" alt="List Icon"> 
     </button>
@@ -41,7 +38,6 @@
         <img src="/imgs/testu2.svg" height="30px" width="30px" alt="Test Icon"> 
     </button>
     
-
 
     <% if (locals.userId === flashcardSet.userId) { %>
     <button type="submit" class="float-btn-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'">
@@ -70,7 +66,6 @@
 
 
 
-
     <% if (locals.userId === flashcardSet.userId) { %>
     <button type="button" class="float-btn-right btn edit-button" onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
     <% } else { %>
@@ -78,7 +73,6 @@
     <% } %>
         <img src="/imgs/edit2.svg" height="30px" width="30px" alt="Edit Icon">
         </button>
-
 
 
     <button type="submit" class="float-btn-right btn share-button mr-1" onclick="document.getElementById('shareModal').style.display='block'">
@@ -103,14 +97,7 @@
     </div>
 
 
-
-
-
-
-
-
     <hr>
-
 
 
     <div id="standard-mode">
@@ -139,7 +126,6 @@
             </button>
         </div>
     </div>
-
 
 
     <div class="flashcards-container" id="shuffle-mode" style="display: none;">
@@ -239,7 +225,6 @@
         }
         thisElem.classList.toggle("underline-bottom")
     }
-
 
 
     // Code from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -364,19 +349,6 @@
     }
 
 
-
-
-    // function resetCards() {
-    //     let allFlashcards = document.getElementsByClassName("reset-cards")
-    //     for (let card of allFlashcards) {
-    //         if (card.classList.contains("flip-card-horizontal")) {
-    //             card.classList.remove("flip-card-horizontal")
-    //         }
-    //     }
-    // }
-
-
-
     // When the user clicks anywhere outside of the modal, close it
     let deleteModal = document.getElementById('deleteModal');
     let shareModal = document.getElementById('shareModal');
@@ -442,8 +414,6 @@
         $("#reset-img").removeClass("rotateImg"); 
     });
 });
-
-
 
 
 

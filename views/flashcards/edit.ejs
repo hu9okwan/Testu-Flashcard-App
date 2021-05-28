@@ -13,8 +13,6 @@
         </div>
 
         <div class="form-group">
-            
-
             <select id="select-course" class="" name="tags[]" placeholder="Select a course...">
                 <option value="">Select a course...</option>
                 <option value="ACIT 1420">ACIT 1420 - Introduction to Systems Administration</option>
@@ -81,8 +79,6 @@
             </select>
         </div>
 
-
-
         <div class="form-group">
             <label class="flashcards-label label-font mt-5">Flashcards</label>
             <ul id="flashcards-list" class="list-unstyled">
@@ -105,8 +101,6 @@
                     <span>+ Add card</span>
                 </button>
             </div>
-
-
         </div>
         <hr>
 
@@ -175,7 +169,6 @@
         textareaDefinition.setAttribute("required", "true")
         textareaDefinition.setAttribute("oninput", 'this.style.height = "";this.style.height = this.scrollHeight + "px"')
         
-
         let button = document.createElement("BUTTON")
         button.setAttribute("type", "button")
         button.setAttribute("class", "btn del-flashcard-button")
@@ -197,7 +190,6 @@
         let flashcardsList = document.getElementById("flashcards-list")
         flashcardsList.appendChild(hr)
         flashcardsList.appendChild(li)
-
     }
 
     $(document).ready(function () {
@@ -230,7 +222,6 @@
         }
     }
   
-
     // load custom tags 
     if (tags !== undefined) {
         $(document).ready(function () {
@@ -242,9 +233,7 @@
                 $('#custom-tags-input').tagsinput('add', tag);
             })
         }
-
     }
-
 
     $(document).ready( function( ) {
 

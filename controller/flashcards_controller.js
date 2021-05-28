@@ -26,6 +26,7 @@ let flashcardsController = {
         res.render("flashcards/create");
     },
 
+
     listOne: async (req, res) => {
         let userId = req.session.passport.user
         let flashcardSetToFind = parseInt(req.params.id);
@@ -40,8 +41,6 @@ let flashcardsController = {
             }
         })
 
-
-
        
         // only users of the set can see it or if the set is not privated
         if (flashcardSet !== null && (flashcardSet.userId === userId || flashcardSet.private === false)) {  
@@ -49,7 +48,6 @@ let flashcardsController = {
             let searchResult = await prisma.flashcard.findMany({
                 where: {flashcardsSetId: flashcardSetToFind}
             })
-
 
             if (searchResult.length > 0) {
                 res.render("flashcards/flashcard_set", { flashcardSet: flashcardSet, allFlashcards: searchResult });
@@ -81,7 +79,6 @@ let flashcardsController = {
 
     create: async (req, res) => {
 
-
         let userId = req.session.passport.user
 
         flashcards = []
@@ -108,8 +105,6 @@ let flashcardsController = {
         if (tags[1] !== "") {
             tagString += tags[1]
         }
-
-
 
         // creates a new flashcardset and creates related flashcards
         const flashcardset = await prisma.flashcardsSet.create({
@@ -198,7 +193,6 @@ let flashcardsController = {
             }
             
 
-
             // delete flashcards
             let deleteIds = req.body.flashcards.delete;
             
@@ -259,7 +253,6 @@ let flashcardsController = {
             }
         }
 
-
         res.redirect(`/flashcards/${flashcardSetToUpdate}`);
         return update_fc
     },
@@ -267,7 +260,6 @@ let flashcardsController = {
     delete: async (req, res) => {
 
         let flashcardSetToDelete = parseInt(req.params.id)
-
 
         // check if user deleting owns the set
         currentUserId = req.session.passport.user
@@ -279,7 +271,6 @@ let flashcardsController = {
         if (currentUserId === flashcardSet.userId) {
 
         // delete entire flashcard set
-        
             const deleteFlashcards = prisma.flashcard.deleteMany({
                 where: {
                     flashcardsSetId: flashcardSetToDelete
@@ -298,9 +289,6 @@ let flashcardsController = {
         } else {
             res.redirect(`/flashcards/${flashcardSetToDelete}`);
         }
-
-        
-
     },
 
     listSearch: async (req, res) => {

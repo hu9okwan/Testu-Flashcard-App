@@ -52,11 +52,8 @@ let authController = {
             return valid
         }
 
-        
 
         let user = await userController.registerUser(name, email, password)
-
-        
 
         if (user) {
             
@@ -106,9 +103,6 @@ let authController = {
             return valid
         }
 
-
-        
-
     },
 
     logout: (req, res) => {
@@ -143,7 +137,6 @@ let authController = {
                 })
 
                 
-
                 await prisma.verifyHash.delete({
                     where: {
                         hash: hash
@@ -151,7 +144,6 @@ let authController = {
                 })
 
                 req.flash("info", {success: "Your account has been verified!"})
-                // return res.render("/auth/login", { loggedIn: false, message: req.flash("info") })
             }
 
         }
