@@ -459,9 +459,7 @@ position: relative;
     height: 0.2rem!important;
   }
 
-#prev-card, #next-card {
-    /* align-self: center; */
-}
+
 
 .bootstrap-tagsinput{
     border: none !important;
@@ -606,7 +604,27 @@ button:focus, button:active:hover {
 }
 
 
+.float-btn-right {
+    float: right;
+}
 
+.pull-label-left {
+    float: left;
+}
+
+
+
+.login-form {
+    padding-top: 2;
+    padding-bottom: 2.5;
+}
+
+.submit-cancel-div {
+    padding-top: 2.5;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 
 
 
@@ -1056,16 +1074,6 @@ input:-webkit-autofill:active  {
     justify-content: space-between;
 }
 
-/* #userInputFilter {
-    border: none;
-    border-radius: 0;
-    border-bottom: lightgray 1px solid;
-    width: 15%;
-    margin-left: auto;
-    box-shadow: none;
-    
-} */
-
 
 
 
@@ -1080,11 +1088,11 @@ input:-webkit-autofill:active  {
 
 div.content {
     width: 300px;
+    height: 250px;
 }
 
 li.col {
     list-style-type: none;
-    /* padding-right: 0; */
 }
 
 *, *:before, *:after {

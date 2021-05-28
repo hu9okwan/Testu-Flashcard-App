@@ -44,9 +44,9 @@
 
 
     <% if (locals.userId === flashcardSet.userId) { %>
-    <button type="submit" class="pull-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'">
+    <button type="submit" class="float-btn-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'">
     <% } else { %>
-        <button type="submit" class="pull-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'" disabled>
+        <button type="submit" class="float-btn-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'" disabled>
     <% } %>
         <img src="/imgs/trash.svg" height="30px" width="30px" alt="Trash Icon">
     </button>
@@ -72,16 +72,16 @@
 
 
     <% if (locals.userId === flashcardSet.userId) { %>
-    <button type="button" class="pull-right btn edit-button" onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
+    <button type="button" class="float-btn-right btn edit-button" onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
     <% } else { %>
-        <button type="button" class="pull-right btn edit-button" disabled onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
+        <button type="button" class="float-btn-right btn edit-button" disabled onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
     <% } %>
         <img src="/imgs/edit2.svg" height="30px" width="30px" alt="Edit Icon">
         </button>
 
 
 
-    <button type="submit" class="pull-right btn share-button mr-1" onclick="document.getElementById('shareModal').style.display='block'">
+    <button type="submit" class="float-btn-right btn share-button mr-1" onclick="document.getElementById('shareModal').style.display='block'">
         <img src="/imgs/share.svg" height="30px" width="30px" alt="Share Icon">
     </button>
 
