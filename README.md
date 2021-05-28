@@ -31,4 +31,4 @@ The application was created using:
 - Heroku
 
 ## Disclaimer
-In utilizing an SQLite database, your account will be publicly available and unsecure. Please use a secondary password in registering your account. Additionally, Heroku uses ephemeral storage and will periodically wipe the data on the database. 
+In utilizing an SQLite database, your account will be publicly available and unsecure. Please use a secondary password when registering your account. Additionally, Heroku uses ephemeral storage and will periodically wipe the data on the database. 
