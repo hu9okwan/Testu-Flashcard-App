@@ -33,18 +33,14 @@
     
     <button type="button" class="mode-button btn underline-bottom" onclick="changeToStandard(); changeUnderline(this);">
         <img src="/imgs/list.svg" height="30px" width="30px" alt="List Icon"> 
-        <!-- <strong>List</strong> -->
     </button>
     <button type="button" class="mode-button btn" onclick="changeToFlashcard(); changeUnderline(this);">
         <img src="/imgs/flashcards.svg" height="30px" width="30px" alt="Flashcards Icon"> 
-        <!-- <strong>Flashcards</strong> -->
     </button>
     <button type="button" class="mode-button btn" onclick="changeToShuffle(); changeUnderline(this);">
         <img src="/imgs/testu2.svg" height="30px" width="30px" alt="Test Icon"> 
     </button>
     
-
-
 
 
     <% if (locals.userId === flashcardSet.userId) { %>
@@ -53,7 +49,6 @@
         <button type="submit" class="pull-right btn delete-button" onclick="document.getElementById('deleteModal').style.display='block'" disabled>
     <% } %>
         <img src="/imgs/trash.svg" height="30px" width="30px" alt="Trash Icon">
-        <!-- <strong>Delete</strong> -->
     </button>
     
     <!-- Modal that displays when delete button is pressed -->
@@ -82,7 +77,6 @@
         <button type="button" class="pull-right btn edit-button" disabled onclick="window.location.href='/flashcards/<%= allFlashcards[0].flashcardsSetId %>/edit'">
     <% } %>
         <img src="/imgs/edit2.svg" height="30px" width="30px" alt="Edit Icon">
-        <!-- <strong>Edit</strong> -->
         </button>
 
 
@@ -453,8 +447,6 @@
 
 
 
-
-
 function copyLink() {
     let copyText = document.getElementById("copy-link");
     copyText.select();
@@ -469,9 +461,6 @@ function copyLink() {
 
 let linkInput = document.getElementById("copy-link");
 linkInput.value = location.href;
-
-
-
 
 
 
