@@ -42,12 +42,14 @@ let authController = {
     },
 
     registerSubmit: async (req, res, next) => {
+        var valid = false
         let { name, email, password } = req.body
 
         let emailProvider = email.split("@")[1]
         if (emailProvider !== "my.bcit.ca") {
             req.flash("info", {failure: "Testu currently accepts BCIT members only. Please register with a valid BCIT email."})
-            return res.render("auth/register", { loggedIn: false, message: req.flash("info") })
+            res.render("auth/register", { loggedIn: false, message: req.flash("info") })
+            return valid
         }
 
         
@@ -55,6 +57,7 @@ let authController = {
         let user = await userController.registerUser(name, email, password)
 
         
+
         if (user) {
             
             const hash = createHash('sha256');
@@ -93,11 +96,14 @@ let authController = {
                 }
             });
             req.flash("info", {success: "Registration successful! You will shortly receive an email with a link to activate your account."})
-            return res.redirect('/login');
+            valid = true
+            res.redirect('/login');
+            return valid
         } 
         else {
             req.flash("info", {failure: "An account with this email already exists."})
-            return res.render("auth/register", { loggedIn: false, message: req.flash("info") })
+            res.render("auth/register", { loggedIn: false, message: req.flash("info") })
+            return valid
         }
 
 

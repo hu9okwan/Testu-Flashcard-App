@@ -1,8 +1,9 @@
 const app = require("../index").app;
-const prisma = require("../index").prisma
+const { PrismaClient } = require("@prisma/client")
+const prisma = new PrismaClient()
 const request = require("supertest");
 const flashcardsController = require("../controller/flashcards_controller")
-const registerUser = require("../controller/user_controller").registerUser
+const authController = require('../controller/auth_controller')
 const httpMocks = require('node-mocks-http');
 
 var cindy;
@@ -12,7 +13,7 @@ beforeAll(async (done) => {
     cindy =
         await prisma.user.findUnique({
             where: {
-                email: "cindy@gmail.com",
+                email: "cindy@my.bcit.ca",
             },
             include: {
                 flashcardsset: true,
@@ -30,7 +31,7 @@ const res = httpMocks.createResponse();
 
 const cheryl = {
     name: 'Cheryl Kong',
-    email: "cheryl@gmail.com",
+    email: "cheryl@my.bcit.ca",
     password: 'k'
 }
 
@@ -65,7 +66,7 @@ describe("Test main features", () => {
                 tags: [],
                 title: 'unite-test',
                 description: 'unit test',
-                private: 'true'
+                private: 'false'
             }
         })
         new_set = await flashcardsController.create(req, res)
@@ -77,7 +78,7 @@ describe("Test main features", () => {
                 flashcards: true,
                 },
         })
-        expect(flashcardset).toHaveLength(5);
+        expect(flashcardset).toHaveLength(6);
     });
     it('view one flascardset', async () => {
         //listOne: return searchResult
@@ -101,9 +102,6 @@ describe("Test main features", () => {
             expect(response).toMatchObject(flashcardset.flashcards)
     });
     it('update flashcards', async () => {
-        //update
-        //create update_fc = [] after flashcardSet, push update to update_fc in if/else statement
-        //return update_fc
         const flashcardset = await prisma.flashcardsSet.findUnique({
             where: {
                 setId: new_set.setId,
@@ -153,7 +151,7 @@ describe("Test main features", () => {
                 flashcards: true,
                 },
         })
-        expect(flashcardset).toHaveLength(4);
+        expect(flashcardset).toHaveLength(5);
     })
 })
 
@@ -236,14 +234,14 @@ describe('Test if flashcardset is sharable', () => {
                 passport: { user: cindy.id }
             },
             query: {
-                input: 'test private'
+                input: 'Private set'
             }
         })
         const res = httpMocks.createResponse();
         const not_shareble = await flashcardsController.listSearch(not_sharable_req,res)
         const flashcardset = await prisma.flashcardsSet.findUnique({
             where: {
-                setId: 36,
+                setId: 46,
             }
         })
         expect(not_shareble).toStrictEqual([]);
@@ -252,7 +250,7 @@ describe('Test if flashcardset is sharable', () => {
 })
 
 describe('Test login' , () => {
-    it("redirect to login page if user does not exist in database", async (done) => {
+    it("redirect to login page if user does not exist in database", async () => {
       await request(app)
         .post("/login")
         .send({
@@ -261,9 +259,8 @@ describe('Test login' , () => {
         })
         .set('Accept', 'application/json')
         .expect("Location", "/login")
-        done()
     });   
-    it("redirect to flashcard page if user exist in database", async (done) => {
+    it("redirect to flashcard page if user exist in database", async () => {
         await request(app)
           .post("/login")
           .send({
@@ -272,13 +269,101 @@ describe('Test login' , () => {
           })
           .set('Accept', 'application/json')
           .expect("Location", "/flashcards")
-          done()
+      }); 
+      it("redirect to login page if email or password is not matched", async () => {
+        await request(app)
+            .post("/login")
+            .send({
+            email: cindy.email,
+            password: cheryl.password
+            })
+            .set('Accept', 'application/json')
+            .expect("Location", "/login")
       }); 
 });
 
 describe('Test register', () => {
-    it('exist in database and no flashcard set after register', async () => {
-        const validate = await registerUser(cheryl.name, cheryl.email, cheryl.password)
+    it('register with correct email', async () => {
+        await request(app)
+            .post("/register")
+            .send({
+                name: cheryl.name,
+                email: cheryl.email,
+                password: cheryl.password
+            })
+            .expect("Location", "/login")
+    });
+    it('register with invalid email', async () => {
+        const req = httpMocks.createRequest({
+            body: {
+                name: cheryl.name,
+                email: "cheryl@gmail.com",
+                password: cheryl.password
+                },
+                flash: (title, message='') =>{
+                    return message
+                }
+        })
+        const valid = await authController.registerSubmit(req,res)
+        expect(valid).toBe(false)
+    })
+})
+
+describe("Test verfiy email", () => {
+    it('Cannot login before verify email', async () => {
+        await request(app)
+          .post("/login")
+          .send({
+            email: cheryl.email,
+            password: cheryl.password
+          })
+          .set('Accept', 'application/json')
+          .expect("Location", "/login")
+    });
+    it('email verification', async () => {
+        const new_user = await prisma.user.findUnique({
+            where: {
+                email: cheryl.email
+            },
+            include:
+            {
+                flashcardsset: true,
+                hash: true
+            }
+        })
+        const req = httpMocks.createRequest({
+            query:{
+                hash: new_user.hash.hash
+            },
+            flash: (a,b)=>{
+                let title = a
+                let message = b
+            }
+        })
+        await authController.verify(req,res)
+        const verify_user = await prisma.user.findUnique({
+            where: {
+                email: cheryl.email
+            },
+            include:
+            {
+                flashcardsset: true,
+                hash: true
+            }
+        })
+        expect(verify_user.active).toBe(true)
+    });
+    it("Successfully log in after verifying the email", async() => {
+        await request(app)
+          .post("/login")
+          .send({
+            email: cheryl.email,
+            password: cheryl.password
+          })
+          .set('Accept', 'application/json')
+          .expect("Location", "/flashcards")
+    });
+    it("Make sure no flashcard is assigned to new user", async() => {
         const user = await prisma.user.findUnique({
             where: {
                 email: cheryl.email
@@ -289,7 +374,6 @@ describe('Test register', () => {
             }
         })
         expect(user.flashcardsset).toHaveLength(0);
-        expect(validate).toBe(true)
         await prisma.user.delete({
             where: {
                 id: user.id
@@ -297,4 +381,3 @@ describe('Test register', () => {
         })
     })
 })
-

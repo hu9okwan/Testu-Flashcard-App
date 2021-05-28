@@ -18,6 +18,7 @@ let flashcardsController = {
             }
         })
         res.render("flashcards/index", { flashcardsSets: allFlashcards });
+        return allFlashcards
     },
 
 
@@ -52,11 +53,13 @@ let flashcardsController = {
 
             if (searchResult.length > 0) {
                 res.render("flashcards/flashcard_set", { flashcardSet: flashcardSet, allFlashcards: searchResult });
+                return searchResult
             } 
         } else if (flashcardSet !== null && flashcardSet.private === true) {
             //case where flashcard set is privated
 
             res.render("flashcards/error")
+            return searchResult
         } else {
             // case where flashcard set does not exist
 
@@ -72,6 +75,7 @@ let flashcardsController = {
             })
 
             res.render("flashcards/index", { flashcardsSets: allFlashcards });
+            return searchResult
         }
     },
 
@@ -108,7 +112,7 @@ let flashcardsController = {
 
 
         // creates a new flashcardset and creates related flashcards
-        await prisma.flashcardsSet.create({
+        const flashcardset = await prisma.flashcardsSet.create({
             data: {
                 title: req.body.title,
                 description: req.body.description,
@@ -122,6 +126,7 @@ let flashcardsController = {
         })
 
         res.redirect("/flashcards");
+        return flashcardset
     },
 
     edit: async (req, res) => {
@@ -148,7 +153,7 @@ let flashcardsController = {
             where: {setId: flashcardSetToUpdate}
         })
 
-
+        const update_fc = [];
         if (currentUserId === flashcardSet.userId) {
             let { title, description } = req.body;
             
@@ -230,16 +235,17 @@ let flashcardsController = {
             for (flashcard of flashcards) {
                 // create flashcard if it doesnt exist
                 if (flashcard.id === "undefined"){
-                    await prisma.flashcard.create({
+                    const update = await prisma.flashcard.create({
                         data: {
                             term: flashcard.term,
                             definition: flashcard.definition,
                             flashcardsSetId: flashcardSetToUpdate
                         }
                     })
+                    update_fc.push(update)
                 } else { // update terms and definitions if flash card exists
                     
-                    await prisma.flashcard.update({
+                    const update = await prisma.flashcard.update({
                         where: {
                             flashcardId: flashcard.id
                         },
@@ -248,12 +254,14 @@ let flashcardsController = {
                             definition: flashcard.definition
                         }
                     })
+                    update_fc.push(update)
                 }
             }
         }
 
 
         res.redirect(`/flashcards/${flashcardSetToUpdate}`);
+        return update_fc
     },
 
     delete: async (req, res) => {
@@ -331,7 +339,7 @@ let flashcardsController = {
         })
 
         res.render("flashcards/search", { flashcardsSets: allFlashcards });
-
+        return allFlashcards
     },
 
 };
