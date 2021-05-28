@@ -55,7 +55,6 @@ let authController = {
         let user = await userController.registerUser(name, email, password)
 
         
-        console.log(user)
         if (user) {
             
             const hash = createHash('sha256');
