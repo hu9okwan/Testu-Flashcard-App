@@ -5,6 +5,7 @@
 # Testu - A Minimalist Flashcard Application
 
 Testu is intended to help BCIT students with studying, via allowing them to test and improve their memory using flashcards. Users will only be able to register using a valid @my.bcit.ca email address.
+Currently registration is disabled; you can use user cindy@my.bcit.ca with password asd123 to play around on it.
 
 ## Features
 The current features that Testu offers include the following:
